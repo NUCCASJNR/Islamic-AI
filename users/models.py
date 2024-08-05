@@ -4,6 +4,20 @@
 
 from django.contrib.auth.models import AbstractUser
 from utils.base_model import BaseModel, models
+from django.contrib.auth.hashers import make_password
+from typing import Union
+
+
+def hash_password(password: Union[str, int]) -> str:
+    """Hashes the password
+
+    :param password: str | int
+    :param password: Union[str:
+    :param in]:
+    :returns: The hashed password
+
+    """
+    return make_password(password)
 
 
 class MainUser(AbstractUser, BaseModel):
@@ -18,3 +32,47 @@ class MainUser(AbstractUser, BaseModel):
     is_verified = models.BooleanField(default=False)
     reset_token = models.CharField(max_length=6, null=True, blank=True)
     verification_code = models.CharField(max_length=6, null=True, blank=True)
+
+    class Meta:
+        """ """
+        indexes = [models.Index(fields=["email", "username"])]
+        db_table = "users"
+
+    USERNAME_FIELD = "email"
+
+    REQUIRED_FIELDS = []
+
+    # Override the custom_save method
+    @classmethod
+    def custom_save(cls, **kwargs):
+        """Overrides the custom_save method to hash the password before saving
+
+        :param **kwargs:
+
+        """
+        if "password" in kwargs:
+            kwargs["password"] = hash_password(kwargs["password"])
+        return super().custom_save(**kwargs)
+
+    def __str__(self):
+        return self.email
+
+    @property
+    def full_name(self) -> str:
+        """ """
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        else:
+            return f"{self.username}"
+
+    @full_name.setter
+    def full_name(self, first_name: str, last_name: str) -> None:
+        """
+
+        :param first_name: str:
+        :param last_name: str:
+
+        """
+        self.first_name = first_name
+        self.last_name = last_name
+        self.save()

@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "phonenumber_field",
     # django apps
-    # "users",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -67,7 +67,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
-ROOT_URLCONF = "Sabirent.urls"
+ROOT_URLCONF = "IslamicAi.urls"
 
 TEMPLATES = [
     {
@@ -87,7 +87,7 @@ TEMPLATES = [
 
 # AUTH_USER_MODEL = "users.MainUser"
 
-WSGI_APPLICATION = "Sabirent.wsgi.application"
+WSGI_APPLICATION = "islamicAi.wsgi.application"
 
 db_dict: Dict = {
     "DEV": {
