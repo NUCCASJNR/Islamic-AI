@@ -41,11 +41,13 @@ class CustomBackend(ModelBackend):
 def get_client_ip(request):
     """Retrieves the client's IP address from the request.
 
-    This function attempts to extract the client's IP address from the HTTP headers.
-    If the 'HTTP_X_FORWARDED_FOR' header is present, it contains a comma-separated list
-    of IP addresses, with the client's IP address typically being the first one.
-    If the 'HTTP_X_FORWARDED_FOR' header is not present, the 'REMOTE_ADDR' header is used
-    to obtain the client's IP address.
+    This function attempts to extract the client's IP address from
+     the HTTP headers.
+    If the 'HTTP_X_FORWARDED_FOR' header is present,
+    it contains a comma-separated list of IP addresses, with the client's
+     IP address typically being the first one.
+    If the 'HTTP_X_FORWARDED_FOR' header is not present,
+     the 'REMOTE_ADDR' header is used to obtain the client's IP address.
 
     :param request: HttpRequest object representing the incoming HTTP request.
     :returns: The client's IP address.

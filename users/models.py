@@ -2,7 +2,7 @@
 
 """Contains user model definition"""
 
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from utils.base_model import BaseModel, models
 from django.contrib.auth.hashers import make_password
 from typing import Union
@@ -32,6 +32,9 @@ class MainUser(AbstractUser, BaseModel):
     is_verified = models.BooleanField(default=False)
     reset_token = models.CharField(max_length=6, null=True, blank=True)
     verification_code = models.CharField(max_length=6, null=True, blank=True)
+
+    groups = models.ManyToManyField(Group, related_name='mainuser_set', blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name='mainuser_set', blank=True)
 
     class Meta:
         """ """
