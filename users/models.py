@@ -27,14 +27,17 @@ class MainUser(AbstractUser, BaseModel):
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
     email = models.EmailField(unique=True, blank=False, null=False)
-    username = models.CharField(max_length=55, unique=True, blank=False, null=False)
+    username = models.CharField(max_length=55, unique=True,
+                                blank=False, null=False)
     password = models.CharField(max_length=255, blank=False, null=False)
     is_verified = models.BooleanField(default=False)
     reset_token = models.CharField(max_length=6, null=True, blank=True)
     verification_code = models.CharField(max_length=6, null=True, blank=True)
 
-    groups = models.ManyToManyField(Group, related_name='mainuser_set', blank=True)
-    user_permissions = models.ManyToManyField(Permission, related_name='mainuser_set', blank=True)
+    groups = models.ManyToManyField(Group, related_name='mainuser_set',
+                                    blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name='\
+    mainuser_set', blank=True)
 
     class Meta:
         """ """

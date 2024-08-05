@@ -70,7 +70,8 @@ class BaseModel(models.Model):
     @classmethod
     def custom_update(cls, filter_kwargs: Dict[str, Any],
                       update_kwargs: Dict[str, Any]):
-        """Updates instances of the class based on the filter_kwargs and update_kwargs.
+        """Updates instances of the class based on the
+        filter_kwargs and update_kwargs.
 
         :param filter_kwargs: Dict[str:
         :param Any]:
@@ -135,11 +136,10 @@ class BaseModel(models.Model):
 
     @classmethod
     def filter_objects(cls, **kwargs: Dict[str, Any]):
-        """Retrieves queryset of instances of the class based on provided filter criteria
-
+        """Retrieves queryset of instances of the class based
+         on provided filter criteria
         :param **kwargs: Dict[str:
         :param Any]:
-
         """
         return cls.objects.filter(**kwargs)
 
