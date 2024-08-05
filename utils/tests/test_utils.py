@@ -19,7 +19,6 @@ def user_instance(db):
                                    verification_code="123456")
 
 
-
 @pytest.mark.django_db
 def test_send_welcome_email(mocker, user_instance):
     """

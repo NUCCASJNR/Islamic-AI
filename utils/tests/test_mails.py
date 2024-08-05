@@ -2,6 +2,7 @@ import pytest
 from django.core import mail
 from utils.utils import send_email
 
+
 @pytest.mark.django_db
 def test_send_email(mocker):
     """
