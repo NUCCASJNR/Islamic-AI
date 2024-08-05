@@ -6,9 +6,10 @@ from utils.utils import send_email
 
 @pytest.mark.django_db
 def test_send_email(mocker):
-    """
-    Test for sending an email
-    :param mocker:
+    """Test for sending an email
+
+    :param mocker: 
+
     """
     # Arrange
     subject = "Test Subject"

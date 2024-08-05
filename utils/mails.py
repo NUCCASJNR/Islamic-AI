@@ -27,6 +27,10 @@ def send_email(
     :param recipient_list: List[str]:
     :param template_name: str:
     :param context: Dict:
+    :param subject: str: 
+    :param recipient_list: List[str]: 
+    :param template_name: str: 
+    :param context: Dict: 
     :returns: None
 
     """
