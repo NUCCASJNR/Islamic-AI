@@ -36,8 +36,7 @@ class MainUser(AbstractUser, BaseModel):
 
     groups = models.ManyToManyField(Group, related_name='mainuser_set',
                                     blank=True)
-    user_permissions = models.ManyToManyField(Permission, related_name='\
-    mainuser_set', blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name='mainuser_set', blank=True)
 
     class Meta:
         """ """
