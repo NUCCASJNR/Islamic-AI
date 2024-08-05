@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Base model"""
-from typing import Any
-from typing import Dict
+from typing import Any, Dict
 from uuid import uuid4
 
 from cloudinary.models import CloudinaryResource
