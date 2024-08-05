@@ -19,13 +19,13 @@ def user_instance(db):
                                    verification_code="123456")
 
 
+
 @pytest.mark.django_db
 def test_send_welcome_email(mocker, user_instance):
     """
-
+    Test for sending a welcome email
     :param mocker:
     :param user_instance:
-
     """
     # Mock the send_email function
     send_email_mock = mocker.patch("utils.utils.send_email")
@@ -35,7 +35,7 @@ def test_send_welcome_email(mocker, user_instance):
 
     # Assert that send_email was called with the correct parameters
     send_email_mock.assert_called_once_with(
-        subject="Welcome to Sabirent",
+        subject="Welcome to IslamicAi",
         recipient_list=[user_instance.email],
         template_name="users/verify.html",
         context={
@@ -55,7 +55,7 @@ def test_send_welcome_email(mocker, user_instance):
 
     # Assert that send_email was called with the correct parameters
     send_email_mock.assert_called_once_with(
-        subject="Welcome to Sabirent",
+        subject="Welcome to IslamicAi",
         recipient_list=[user_instance.email],
         template_name="users/verify.html",
         context={
