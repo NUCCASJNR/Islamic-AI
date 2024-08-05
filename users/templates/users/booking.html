@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apartment Review Booking</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .details {
+    margin-bottom: 20px;
+  }
+  .details p {
+    margin: 5px 0;
+  }
+  .logo {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="https://imgur.com/e5dhNAd.png" alt="Logo" width="200">
+    </div>
+    <div class="header">
+      <h2>Apartment Review Booking</h2>
+    </div>
+    <div class="details">
+      <p>Hello,</p>
+      <p>The owner of the apartment with the following details has booked a review for the apartment:</p>
+      <p><strong>Address:</strong> {{ Address }}</p>
+      <p><strong>Price:</strong> {{ Price }}</p>
+      <p><strong>Number of rooms:</strong> {{ Rooms }}</p>
+      <p><strong>Number of bathrooms:</strong> {{ Bathrooms }}</p>
+      <p><strong>Review date:</strong> {{ Date }}</p>
+    </div>
+  </div>
+</body>
+</html>

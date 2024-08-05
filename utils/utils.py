@@ -34,7 +34,7 @@ def send_verification_email(user: "MainUser Instance"):
 
     try:
         send_email(
-            subject="Welcome to Sabirent",
+            subject="Welcome to IslamicAi",
             recipient_list=[user.email],
             template_name="users/verify.html",
             context=context,
