@@ -9,4 +9,3 @@ GRANT ALL PRIVILEGES ON chatbot_db.* TO 'chat' @'localhost';
 GRANT SELECT ON performance_schema.* TO 'rent_user' @'localhost';
 
 FLUSH PRIVILEGES;
-

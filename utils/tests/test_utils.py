@@ -9,7 +9,7 @@ from utils.utils import send_verification_email
 def user_instance(db):
     """
 
-    :param db: 
+    :param db:
 
     """
     # Create and return a MainUser instance for testing
@@ -24,7 +24,7 @@ def test_send_welcome_email(mocker, user_instance):
     """Test for sending a welcome email
 
     :param mocker: param user_instance:
-    :param user_instance: 
+    :param user_instance:
 
     """
     # Mock the send_email function

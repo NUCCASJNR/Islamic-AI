@@ -13,7 +13,7 @@ class CustomBackend(ModelBackend):
         :param request: param username:  (Default value = None)
         :param password: Default value = None)
         :param username:  (Default value = None)
-        :param **kwargs: 
+        :param **kwargs:
 
         """
         if username is None:
@@ -32,7 +32,7 @@ class CustomBackend(ModelBackend):
     def authenticate_header(self, request):
         """
 
-        :param request: 
+        :param request:
 
         """
         return 'Bearer realm="api"'
@@ -40,7 +40,7 @@ class CustomBackend(ModelBackend):
 
 def get_client_ip(request):
     """Retrieves the client's IP address from the request.
-    
+
     This function attempts to extract the client's IP address from
      the HTTP headers.
     If the 'HTTP_X_FORWARDED_FOR' header is present,

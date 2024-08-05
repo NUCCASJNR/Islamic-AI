@@ -8,7 +8,7 @@ from utils.utils import send_email
 def test_send_email(mocker):
     """Test for sending an email
 
-    :param mocker: 
+    :param mocker:
 
     """
     # Arrange

@@ -30,8 +30,8 @@ class BaseModel(models.Model):
     def custom_save(cls, **kwargs: Dict[str, Any]):
         """Saves an instance of the class
 
-        :param **kwargs: Dict[str: 
-        :param Any]: 
+        :param **kwargs: Dict[str:
+        :param Any]:
 
         """
         # cls.updated_at = datetime.now()
@@ -42,7 +42,7 @@ class BaseModel(models.Model):
     def custom_get(cls, **kwargs):
         """
 
-        :param **kwargs: 
+        :param **kwargs:
 
         """
         try:
@@ -61,8 +61,8 @@ class BaseModel(models.Model):
         """Deletes an instance of the class Based
         on the kwargs filter
 
-        :param **kwargs: Dict[str: 
-        :param Any]: 
+        :param **kwargs: Dict[str:
+        :param Any]:
 
         """
         instance = cls.objects.filter(**kwargs)
@@ -77,9 +77,9 @@ class BaseModel(models.Model):
 
         :param filter_kwargs: Dict[str:
         :param Any: param update_kwargs: Dict[str:
-        :param filter_kwargs: Dict[str: 
-        :param Any]: 
-        :param update_kwargs: Dict[str: 
+        :param filter_kwargs: Dict[str:
+        :param Any]:
+        :param update_kwargs: Dict[str:
 
         """
         try:
@@ -96,8 +96,8 @@ class BaseModel(models.Model):
         """Finds an instance of the class Based
         on the kwargs
 
-        :param **kwargs: Dict[str: 
-        :param Any]: 
+        :param **kwargs: Dict[str:
+        :param Any]:
 
         """
         try:
@@ -111,8 +111,8 @@ class BaseModel(models.Model):
         """Finds an instance of the class Based
         on the kwargs
 
-        :param **kwargs: Dict[str: 
-        :param Any]: 
+        :param **kwargs: Dict[str:
+        :param Any]:
 
         """
         try:
@@ -125,8 +125,8 @@ class BaseModel(models.Model):
     def filter_count(cls, **kwargs: Dict[str, Any]):
         """Counts the number of instances of the class
 
-        :param **kwargs: Dict[str: 
-        :param Any]: 
+        :param **kwargs: Dict[str:
+        :param Any]:
 
         """
         return cls.objects.filter(**kwargs).count()
@@ -141,8 +141,8 @@ class BaseModel(models.Model):
         """Retrieves queryset of instances of the class based
          on provided filter criteria
 
-        :param **kwargs: Dict[str: 
-        :param Any]: 
+        :param **kwargs: Dict[str:
+        :param Any]:
 
         """
         return cls.objects.filter(**kwargs)
@@ -154,7 +154,7 @@ class BaseModel(models.Model):
         """Converts a CloudinaryResource object to a dictionary
 
         :param cloudinary_resource: CloudinaryResource:
-        :param cloudinary_resource: CloudinaryResource: 
+        :param cloudinary_resource: CloudinaryResource:
 
         """
         if isinstance(cloudinary_resource, CloudinaryResource):
@@ -167,7 +167,7 @@ class BaseModel(models.Model):
         """Converts the object to a dictionary
 
         :param obj: Any:
-        :param obj: Any: 
+        :param obj: Any:
 
         """
 
