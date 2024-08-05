@@ -23,6 +23,7 @@ class BaseModel(models.Model):
 
     class Meta:
         """ """
+
         abstract = True
 
     @classmethod
@@ -68,8 +69,9 @@ class BaseModel(models.Model):
         instance.delete()
 
     @classmethod
-    def custom_update(cls, filter_kwargs: Dict[str, Any],
-                      update_kwargs: Dict[str, Any]):
+    def custom_update(
+        cls, filter_kwargs: Dict[str, Any], update_kwargs: Dict[str, Any]
+    ):
         """Updates instances of the class based on the
         filter_kwargs and update_kwargs.
 
@@ -79,10 +81,8 @@ class BaseModel(models.Model):
 
         """
         try:
-            if "password" in update_kwargs and update_kwargs[
-                    "password"] is not None:
-                update_kwargs["password"] = make_password(
-                    update_kwargs["password"])
+            if "password" in update_kwargs and update_kwargs["password"] is not None:
+                update_kwargs["password"] = make_password(update_kwargs["password"])
 
             cls.objects.filter(**filter_kwargs).update(**update_kwargs)
             return True
@@ -145,7 +145,8 @@ class BaseModel(models.Model):
 
     @classmethod
     def handle_cloudinary_resource(
-            cls, cloudinary_resource: CloudinaryResource) -> Dict[str, Any]:
+        cls, cloudinary_resource: CloudinaryResource
+    ) -> Dict[str, Any]:
         """Converts a CloudinaryResource object to a dictionary
 
         :param cloudinary_resource: CloudinaryResource:

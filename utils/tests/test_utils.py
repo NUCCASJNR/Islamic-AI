@@ -14,9 +14,9 @@ def user_instance(db):
     """
     # Create and return a MainUser instance for testing
 
-    return MainUser.objects.create(username="testuser",
-                                   email="test@example.com",
-                                   verification_code="123456")
+    return MainUser.objects.create(
+        username="testuser", email="test@example.com", verification_code="123456"
+    )
 
 
 @pytest.mark.django_db
@@ -72,9 +72,6 @@ def test_send_welcome_email(mocker, user_instance):
 
     # Assert that send_email was not called
     send_email_mock.assert_not_called()
-    assert response == {
-        "status": "error",
-        "message": "Invalid user instance provided"
-    }
+    assert response == {"status": "error", "message": "Invalid user instance provided"}
     assert response.get("status") == "error"
     # Add more test cases as needed for different edge cases
