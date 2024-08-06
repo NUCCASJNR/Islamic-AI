@@ -1,24 +1,27 @@
 #!/usr/bin/env python3
-
 """Contains user related API endpoints"""
-
 import logging
 from typing import Optional
 
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from ninja import NinjaAPI, Schema
+from ninja import NinjaAPI
+from ninja import Schema
 from ninja.errors import HttpError
 from ninja.responses import Response
 
-from utils.utils import (generate_code, send_reset_password_email,
-                         send_verification_email)
-
 from .models import MainUser
-from .schemas import MessageSchema, UserCreateSchema, UserResponseSchema
+from .schemas import MessageSchema
+from .schemas import UserCreateSchema
+from .schemas import UserResponseSchema
+from utils.utils import generate_code
+from utils.utils import send_reset_password_email
+from utils.utils import send_verification_email
 
 logger = logging.getLogger("apps")
 api = NinjaAPI()

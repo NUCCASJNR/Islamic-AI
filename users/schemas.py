@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-
-
 """Contains user related schemas definition"""
-
 from typing import Optional
 
 from ninja import Schema
