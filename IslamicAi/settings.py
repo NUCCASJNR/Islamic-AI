@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     "phonenumber_field",
     # django apps
     "users",
-    "chat"
+    "chat",
+    "ninja",
 ]
 
 MIDDLEWARE = [
@@ -88,7 +89,7 @@ TEMPLATES = [
 
 # AUTH_USER_MODEL = "users.MainUser"
 
-WSGI_APPLICATION = "islamicAi.wsgi.application"
+WSGI_APPLICATION = "IslamicAi.wsgi.application"
 
 db_dict: Dict = {
     "DEV": {
