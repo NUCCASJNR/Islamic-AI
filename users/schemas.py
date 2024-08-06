@@ -45,6 +45,4 @@ class EmailVerificationSchema(Schema):
     """
     Schema for verifying user verification code
     """
-
-    email: str
     verification_code: int

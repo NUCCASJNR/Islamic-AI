@@ -56,7 +56,7 @@ def signup(request, payload: UserCreateSchema):
     payload_data["verification_code"] = otp
     user = MainUser.custom_save(**payload_data)
     logger.debug(f"Setting cache with key: {key}, otp: {otp}")
-    response = cache.set(key, otp, 60 * 10)
+    response = cache.set(key, otp, 60 * 30)
     # Debugging: check if key can be retrieved from cache
     cached_otp = cache.get(key)
     logger.debug(f"Cached OTP: {cached_otp}")
@@ -65,12 +65,30 @@ def signup(request, payload: UserCreateSchema):
     send_verification_email(user)
     # Serialize the user object using UserResponseSchema
 
-    return JsonResponse({
-        "message": "Registration Successful, Check your email"
-                   " for the verification code",
-        "status": 201
-    })
+    return 201, {"message": "Registration successful,"
+                            " Check your email for verification code"}
 
 
-# @api.post("/email-verification",
-#           )
+@api.post("/email-verification",
+          response={
+              200: MessageSchema,
+              400: ErrorSchema
+          })
+def email_verification(request, payload: EmailVerificationSchema):
+    """
+    API route for verifying user's email address
+    :param request: Request Obj
+    :param payload: Email verification SCHEMA
+    :return: 200 if successful else 400
+    """
+    print(payload)
+    otp = payload.verification_code
+    key = f"Verification_code:{otp}"
+    if cache.get(key):
+        user = MainUser.custom_get(verification_code=otp)
+        user.is_verified = True
+        user.verification_code = None
+        user.save()
+        cache.delete(key)
+        return 200, {"message": "Email verification successful"}
+    return 400, {"error": "Invalid verification code"}
