@@ -28,4 +28,3 @@ class UserCreateSchema(Schema):
 class LoginSchema(Schema):
     username: str
     password: str
-
