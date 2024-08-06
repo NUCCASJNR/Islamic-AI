@@ -122,8 +122,10 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.FormParser",
         "rest_framework.parsers.MultiPartParser",
     ],
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 15,
+    "DEFAULT_PAGINATION_CLASS":
+    "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE":
+    15,
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -155,17 +157,24 @@ EMAIL_USE_SSL = True
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation."
+        "NAME":
+        "django.contrib.auth.password_validation."
         "UserAttributeSimilarityValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation." "MinimumLengthValidator",
+        "NAME":
+        "django.contrib.auth.password_validation."
+        "MinimumLengthValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation." "CommonPasswordValidator",
+        "NAME":
+        "django.contrib.auth.password_validation."
+        "CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation." "NumericPasswordValidator",
+        "NAME":
+        "django.contrib.auth.password_validation."
+        "NumericPasswordValidator",
     },
 ]
 
@@ -204,50 +213,50 @@ if not os.path.exists(LOGGING_DIR):
     os.makedirs(LOGGING_DIR)
 
 try:
-    logging.config.dictConfig(
-        {
-            "version": 1,
-            "disable_existing_loggers": False,
-            "formatters": {
-                "console": {
-                    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-                },
-                "file": {
-                    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-                },
-                "django.server": DEFAULT_LOGGING["formatters"]["django.server"],
+    logging.config.dictConfig({
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "console": {
+                "format":
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
             },
-            "handlers": {
-                "console": {
-                    "level": LOG_LEVEL,
-                    "class": "logging.StreamHandler",
-                    "formatter": "console",
-                },
-                "file": {
-                    "level": LOG_LEVEL,
-                    "class": "logging.handlers.RotatingFileHandler",
-                    "formatter": "file",
-                    "filename": os.path.join(LOGGING_DIR, "django.log"),
-                    "maxBytes": 1024 * 1024 * 10,  # 10 MB
-                    "backupCount": 5,
-                },
-                "django.server": DEFAULT_LOGGING["handlers"]["django.server"],
+            "file": {
+                "format":
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
             },
-            "loggers": {
-                "": {
-                    "level": LOG_LEVEL,
-                    "handlers": ["console", "file"],
-                    "propagate": True,
-                },
-                "apps": {
-                    "level": LOG_LEVEL,
-                    "handlers": ["console", "file"],
-                    "propagate": False,
-                },
-                "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
+            "django.server": DEFAULT_LOGGING["formatters"]["django.server"],
+        },
+        "handlers": {
+            "console": {
+                "level": LOG_LEVEL,
+                "class": "logging.StreamHandler",
+                "formatter": "console",
             },
-        }
-    )
+            "file": {
+                "level": LOG_LEVEL,
+                "class": "logging.handlers.RotatingFileHandler",
+                "formatter": "file",
+                "filename": os.path.join(LOGGING_DIR, "django.log"),
+                "maxBytes": 1024 * 1024 * 10,  # 10 MB
+                "backupCount": 5,
+            },
+            "django.server": DEFAULT_LOGGING["handlers"]["django.server"],
+        },
+        "loggers": {
+            "": {
+                "level": LOG_LEVEL,
+                "handlers": ["console", "file"],
+                "propagate": True,
+            },
+            "apps": {
+                "level": LOG_LEVEL,
+                "handlers": ["console", "file"],
+                "propagate": False,
+            },
+            "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
+        },
+    })
 except Exception as e:
     logging.exception("Failed to configure logging: %s", e)
 
