@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Contains user related schemas definition"""
 from typing import Optional
-
 from ninja import Schema
+from pydantic import BaseModel, EmailStr, root_validator
 
 
 class UserSchema(Schema):
@@ -24,11 +24,17 @@ class UserCreateSchema(Schema):
     last_name: str
 
 
-class LoginSchema(Schema):
-    """ """
-
-    username: str
+class LoginSchema(BaseModel):
+    email: Optional[EmailStr] = None
+    username: Optional[str] = None
     password: str
+
+    @model_validator(mode='before')
+    def check_email_or_username(cls, values):
+        email, username = values.get('email'), values.get('username')
+        if not email and not username:
+            raise ValueError('Either email or username must be provided')
+        return values
 
 
 class ErrorSchema(Schema):
