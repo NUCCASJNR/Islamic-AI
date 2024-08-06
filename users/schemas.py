@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-
-
 """Contains user related schemas definition"""
-
 from typing import Optional
+
 from ninja import Schema
 
 
 class UserSchema(Schema):
+    """ """
     username: str
     email: str
     first_name: Optional[str] = None
@@ -15,6 +14,7 @@ class UserSchema(Schema):
 
 
 class UserCreateSchema(Schema):
+    """ """
     username: str
     password: str
     email: str
@@ -23,13 +23,16 @@ class UserCreateSchema(Schema):
 
 
 class LoginSchema(Schema):
+    """ """
     username: str
     password: str
 
 
 class UserResponseSchema(Schema):
+    """ """
     message: str
 
 
 class MessageSchema(Schema):
+    """ """
     message: str

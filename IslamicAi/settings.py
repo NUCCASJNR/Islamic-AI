@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     # django apps
     "users",
     "chat",
-    "ninja"
+    "ninja",
 ]
 
 MIDDLEWARE = [
