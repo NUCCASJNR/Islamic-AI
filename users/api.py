@@ -27,7 +27,11 @@ logger = logging.getLogger("apps")
 api = NinjaAPI()
 
 
-@api.post("/auth/signup", response={201: UserResponseSchema, 400: MessageSchema})
+@api.post("/auth/signup",
+          response={
+              201: UserResponseSchema,
+              400: MessageSchema
+          })
 def signup(request, payload: UserCreateSchema):
     """View for registering a new user
 
@@ -59,4 +63,7 @@ def signup(request, payload: UserCreateSchema):
     send_verification_email(user)
     # Serialize the user object using UserResponseSchema
 
-    return JsonResponse({"message": "User registered successfully", "status": 201})
+    return JsonResponse({
+        "message": "User registered successfully",
+        "status": 201
+    })
