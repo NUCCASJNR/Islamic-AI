@@ -33,7 +33,7 @@ def signup(request, payload: UserCreateSchema):
 
     :param request: Request object
     :param payload: User payload
-    :param payload: UserCreateSchema: 
+    :param payload: UserCreateSchema:
     :returns: 201 or 400
 
     """
