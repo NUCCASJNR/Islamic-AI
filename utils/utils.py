@@ -8,13 +8,13 @@ from .mails import send_email
 def generate_code():
     """Generates random 6digit code
     :return: The code
-
-
     """
-    uid = uuid.uuid4()
-    uuid_hex = uid.hex  # convert to hex value
-    otp = "".join(filter(str.isdigit, uuid_hex))[:6]
-    return otp
+    while True:
+        uid = uuid.uuid4()
+        uuid_hex = uid.hex  # convert to hex value
+        otp = "".join(filter(str.isdigit, uuid_hex))[:6]
+        if otp[0] != '0':  # Ensure the first digit is not 0
+            return otp
 
 
 def send_verification_email(user: "MainUser Instance"):

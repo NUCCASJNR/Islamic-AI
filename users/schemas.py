@@ -2,7 +2,7 @@
 """Contains user related schemas definition"""
 from typing import Optional
 from ninja import Schema
-from pydantic import BaseModel, EmailStr, root_validator
+from pydantic import BaseModel, EmailStr, root_validator, model_validator
 
 
 class UserSchema(Schema):
@@ -40,11 +40,13 @@ class LoginSchema(BaseModel):
 class ErrorSchema(Schema):
     """ """
     error: str
+    status: int
 
 
 class MessageSchema(Schema):
     """Message schema"""
     message: str
+    status: int
 
 
 class EmailVerificationSchema(Schema):
@@ -52,3 +54,7 @@ class EmailVerificationSchema(Schema):
     Schema for verifying user verification code
     """
     verification_code: int
+
+
+class LoginResponseSchema(Schema):
+    """Login Response Schema"""
