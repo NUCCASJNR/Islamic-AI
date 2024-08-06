@@ -33,7 +33,6 @@ class LoginSchema(Schema):
 
 class UserResponseSchema(Schema):
     """ """
-
     message: str
 
 
@@ -41,3 +40,12 @@ class MessageSchema(Schema):
     """ """
 
     message: str
+
+
+class EmailVerificationSchema(Schema):
+    """
+    Schema for verifying user verification code
+    """
+
+    email: str
+    verification_code: int
