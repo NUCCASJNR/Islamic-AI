@@ -26,11 +26,13 @@ api = NinjaAPI()
 
 @api.post("/auth/signup", response={201: UserResponseSchema, 400: MessageSchema})
 def signup(request, payload: UserCreateSchema):
-    """
-    View for registering a new user
+    """View for registering a new user
+
     :param request: Request object
     :param payload: User payload
-    :return: 201 or 400
+    :param payload: UserCreateSchema: 
+    :returns: 201 or 400
+
     """
     email: str = payload.email
     username: str = payload.username

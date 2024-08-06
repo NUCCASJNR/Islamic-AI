@@ -15,7 +15,9 @@ def hash_password(password: Union[str, int]) -> str:
 
     :param password: str | int
     :param password: Union[str:
-    :param in]:
+    :param in: returns: The hashed password
+    :param password: Union[str: 
+    :param int]: 
     :returns: The hashed password
 
     """
@@ -23,9 +25,7 @@ def hash_password(password: Union[str, int]) -> str:
 
 
 class MainUser(AbstractUser, BaseModel):
-    """
-    Main user model
-    """
+    """Main user model"""
 
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
@@ -56,7 +56,7 @@ class MainUser(AbstractUser, BaseModel):
     def custom_save(cls, **kwargs):
         """Overrides the custom_save method to hash the password before saving
 
-        :param **kwargs:
+        :param **kwargs: 
 
         """
         if "password" in kwargs:
@@ -80,6 +80,8 @@ class MainUser(AbstractUser, BaseModel):
 
         :param first_name: str:
         :param last_name: str:
+        :param first_name: str: 
+        :param last_name: str: 
 
         """
         self.first_name = first_name
