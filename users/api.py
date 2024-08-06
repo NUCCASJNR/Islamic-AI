@@ -16,9 +16,12 @@ from ninja.errors import HttpError
 from ninja.responses import Response
 
 from .models import MainUser
-from .schemas import MessageSchema
-from .schemas import UserCreateSchema
-from .schemas import UserResponseSchema
+from .schemas import (
+    MessageSchema,
+    UserCreateSchema,
+    ErrorSchema,
+    EmailVerificationSchema
+)
 from utils.utils import generate_code
 from utils.utils import send_reset_password_email
 from utils.utils import send_verification_email
@@ -29,8 +32,8 @@ api = NinjaAPI()
 
 @api.post("/auth/signup",
           response={
-              201: UserResponseSchema,
-              400: MessageSchema
+              201: MessageSchema,
+              400: ErrorSchema
           })
 def signup(request, payload: UserCreateSchema):
     """View for registering a new user
@@ -44,9 +47,9 @@ def signup(request, payload: UserCreateSchema):
     email: str = payload.email
     username: str = payload.username
     if MainUser.custom_get(email=email):
-        return JsonResponse({"error": "User already exists"}, status=400)
+        return 400, {"error": "User already exists"}
     if MainUser.custom_get(username=username):
-        return JsonResponse({"error": "Username already exists"}, status=400)
+        return 400, {"error": "Username already exists"}
     otp: int = generate_code()
     key = f"Verification_code:{otp}"
     payload_data = payload.dict()
@@ -67,3 +70,7 @@ def signup(request, payload: UserCreateSchema):
                    " for the verification code",
         "status": 201
     })
+
+
+# @api.post("/email-verification",
+#           )

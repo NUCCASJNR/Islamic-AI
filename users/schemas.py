@@ -31,14 +31,13 @@ class LoginSchema(Schema):
     password: str
 
 
-class UserResponseSchema(Schema):
+class ErrorSchema(Schema):
     """ """
-    message: str
+    error: str
 
 
 class MessageSchema(Schema):
-    """ """
-
+    """Message schema"""
     message: str
 
 
