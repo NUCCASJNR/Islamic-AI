@@ -18,6 +18,8 @@ def hash_password(password: Union[str, int]) -> str:
     :param password: Union[str:
     :param in: returns: The hashed password
     :param password: Union[str:
+    :param int: returns: The hashed password
+    :param password: Union[str:
     :param int]:
     :returns: The hashed password
 
@@ -84,6 +86,8 @@ class MainUser(AbstractUser, BaseModel):
     def full_name(self, first_name: str, last_name: str) -> None:
         """
 
+        :param first_name: str:
+        :param last_name: str:
         :param first_name: str:
         :param last_name: str:
         :param first_name: str:
