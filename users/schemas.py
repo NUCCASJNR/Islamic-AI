@@ -8,9 +8,6 @@ from ninja import Schema
 
 
 class UserSchema(Schema):
-    """
-    User schema
-    """
     username: str
     email: str
     first_name: Optional[str] = None
@@ -28,3 +25,11 @@ class UserCreateSchema(Schema):
 class LoginSchema(Schema):
     username: str
     password: str
+
+
+class UserResponseSchema(Schema):
+    message: str
+
+
+class MessageSchema(Schema):
+    message: str
