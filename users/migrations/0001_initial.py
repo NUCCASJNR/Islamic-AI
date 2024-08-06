@@ -22,9 +22,9 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "last_login",
-                    models.DateTimeField(blank=True,
-                                         null=True,
-                                         verbose_name="last login"),
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="last login"
+                    ),
                 ),
                 (
                     "is_superuser",
@@ -52,8 +52,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "date_joined",
-                    models.DateTimeField(default=django.utils.timezone.now,
-                                         verbose_name="date joined"),
+                    models.DateTimeField(
+                        default=django.utils.timezone.now, verbose_name="date joined"
+                    ),
                 ),
                 (
                     "id",
@@ -66,8 +67,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_at",
-                    models.DateTimeField(default=django.utils.timezone.now,
-                                         editable=False),
+                    models.DateTimeField(
+                        default=django.utils.timezone.now, editable=False
+                    ),
                 ),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("first_name", models.CharField(max_length=150)),
@@ -76,31 +78,30 @@ class Migration(migrations.Migration):
                 ("username", models.CharField(max_length=55, unique=True)),
                 ("password", models.CharField(max_length=255)),
                 ("is_verified", models.BooleanField(default=False)),
-                ("reset_token",
-                 models.CharField(blank=True, max_length=6, null=True)),
+                ("reset_token", models.CharField(blank=True, max_length=6, null=True)),
                 (
                     "verification_code",
                     models.CharField(blank=True, max_length=6, null=True),
                 ),
                 (
                     "groups",
-                    models.ManyToManyField(blank=True,
-                                           related_name="mainuser_set",
-                                           to="auth.group"),
+                    models.ManyToManyField(
+                        blank=True, related_name="mainuser_set", to="auth.group"
+                    ),
                 ),
                 (
                     "user_permissions",
-                    models.ManyToManyField(blank=True,
-                                           related_name="mainuser_set",
-                                           to="auth.permission"),
+                    models.ManyToManyField(
+                        blank=True, related_name="mainuser_set", to="auth.permission"
+                    ),
                 ),
             ],
             options={
-                "db_table":
-                "users",
+                "db_table": "users",
                 "indexes": [
-                    models.Index(fields=["email", "username"],
-                                 name="users_email_12d978_idx")
+                    models.Index(
+                        fields=["email", "username"], name="users_email_12d978_idx"
+                    )
                 ],
             },
             managers=[
