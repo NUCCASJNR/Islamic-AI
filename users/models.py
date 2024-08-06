@@ -3,12 +3,9 @@
 from typing import Union
 
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import Group
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
-from utils.base_model import BaseModel
-from utils.base_model import models
+from utils.base_model import BaseModel, models
 
 
 def hash_password(password: Union[str, int]) -> str:
