@@ -38,22 +38,15 @@ def signup(request, payload: UserCreateSchema):
     :param request: Request object
     :param payload: User payload
     :param payload: UserCreateSchema:
-    :param payload: UserCreateSchema:
-    :param payload: UserCreateSchema:
-    :param payload: UserCreateSchema:
-    :param payload: UserCreateSchema:
-    :param payload: UserCreateSchema:
-    :param payload: UserCreateSchema:
-    :param payload: UserCreateSchema:
     :returns: 201 or 400
 
     """
     email: str = payload.email
     username: str = payload.username
     if MainUser.custom_get(email=email):
-        return JsonResponse({"message": "User already exists"}, status=400)
+        return JsonResponse({"error": "User already exists"}, status=400)
     if MainUser.custom_get(username=username):
-        return JsonResponse({"message": "Username already exists"}, status=400)
+        return JsonResponse({"error": "Username already exists"}, status=400)
     otp: int = generate_code()
     key = f"Verification_code:{otp}"
     payload_data = payload.dict()
@@ -70,6 +63,7 @@ def signup(request, payload: UserCreateSchema):
     # Serialize the user object using UserResponseSchema
 
     return JsonResponse({
-        "message": "User registered successfully",
+        "message": "Registration Successful, Check your email"
+                   " for the verification code",
         "status": 201
     })
