@@ -4,6 +4,7 @@
 """Contains user related schemas definition"""
 
 from typing import Optional
+
 from ninja import Schema
 
 
