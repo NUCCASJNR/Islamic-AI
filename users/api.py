@@ -34,7 +34,7 @@ def signup(request, payload: UserCreateSchema):
     :param request: Request object
     :param payload: User payload
     :param payload: UserCreateSchema:
-    :param payload: UserCreateSchema: 
+    :param payload: UserCreateSchema:
     :returns: 201 or 400
 
     """
@@ -71,7 +71,7 @@ def email_verification(request, payload: EmailVerificationSchema):
 
     :param request: Request Obj
     :param payload: Email verification SCHEMA
-    :param payload: EmailVerificationSchema: 
+    :param payload: EmailVerificationSchema:
     :returns: 200 if successful else 400
 
     """
@@ -93,7 +93,7 @@ def user_login(request, payload: LoginSchema):
 
     :param request: Request object
     :param payload: LoginSchema
-    :param payload: LoginSchema: 
+    :param payload: LoginSchema:
     :returns: 200 if successful else 400
 
     """

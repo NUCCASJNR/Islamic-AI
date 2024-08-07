@@ -24,7 +24,7 @@ def send_verification_email(user: "MainUser Instance"):
 
     :param user: MainUser Instance
     :param user: MainUser Instance":
-    :param user: "MainUser Instance": 
+    :param user: "MainUser Instance":
     :returns: JsonResponse: JSON response indicating success or failure.
 
     """
@@ -53,7 +53,7 @@ def send_reset_password_email(user: "MainUser Instance"):
 
     :param user: MainUser Instance
     :param user: MainUser Instance":
-    :param user: "MainUser Instance": 
+    :param user: "MainUser Instance":
     :returns: Response: JSON response indicating success or failure.
 
     """

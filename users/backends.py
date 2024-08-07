@@ -13,7 +13,7 @@ class CustomBackend(ModelBackend):
         :param request: param username:  (Default value = None)
         :param password: Default value = None)
         :param username:  (Default value = None)
-        :param **kwargs: 
+        :param **kwargs:
 
         """
         if username is None:
