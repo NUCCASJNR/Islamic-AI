@@ -17,7 +17,7 @@ from .schemas import (
     ErrorSchema,
     EmailVerificationSchema,
     LoginSchema,
-    LoginResponseSchema
+    LoginResponseSchema,
 )
 from utils.utils import generate_code
 from utils.utils import send_reset_password_email
@@ -27,11 +27,7 @@ logger = logging.getLogger("apps")
 api = NinjaAPI()
 
 
-@api.post("/auth/signup",
-          response={
-              201: MessageSchema,
-              400: ErrorSchema
-          })
+@api.post("/auth/signup", response={201: MessageSchema, 400: ErrorSchema})
 def signup(request, payload: UserCreateSchema):
     """View for registering a new user
 
@@ -44,15 +40,9 @@ def signup(request, payload: UserCreateSchema):
     email: str = payload.email
     username: str = payload.username
     if MainUser.custom_get(email=email):
-        return 400, {
-            "error": "Email already exists",
-            "status": 400
-        }
+        return 400, {"error": "Email already exists", "status": 400}
     if MainUser.custom_get(username=username):
-        return 400, {
-            "error": "Username already exists",
-            "status": 400
-        }
+        return 400, {"error": "Username already exists", "status": 400}
     otp: int = generate_code()
     key = f"Verification_code:{otp}"
     payload_data = payload.dict()
@@ -68,17 +58,13 @@ def signup(request, payload: UserCreateSchema):
     send_verification_email(user)
     # Serialize the user object using UserResponseSchema
 
-    return 201, {"message": "Registration successful,"
-                            " Check your email for verification code",
-                 "status": 201
-                 }
+    return 201, {
+        "message": "Registration successful," " Check your email for verification code",
+        "status": 201,
+    }
 
 
-@api.post("/email-verification",
-          response={
-              200: MessageSchema,
-              400: ErrorSchema
-          })
+@api.post("/email-verification", response={200: MessageSchema, 400: ErrorSchema})
 def email_verification(request, payload: EmailVerificationSchema):
     """
     API route for verifying user's email address
@@ -94,21 +80,11 @@ def email_verification(request, payload: EmailVerificationSchema):
         user.verification_code = None
         user.save()
         cache.delete(key)
-        return 200, {
-            "message": "Email verification successful",
-            "status": 200
-        }
-    return 400, {
-        "error": "Invalid verification code",
-        "status": 400
-    }
+        return 200, {"message": "Email verification successful", "status": 200}
+    return 400, {"error": "Invalid verification code", "status": 400}
 
 
-@api.post('/auth/login',
-          response={
-              200: LoginResponseSchema,
-              400: ErrorSchema
-          })
+@api.post("/auth/login", response={200: LoginResponseSchema, 400: ErrorSchema})
 def user_login(request, payload: LoginSchema):
     """
     API view for logging in user
@@ -131,16 +107,13 @@ def user_login(request, payload: LoginSchema):
         if not auth_user.is_verified:
             return 400, {
                 "error": "You need to verify your account to login",
-                "status": 400
+                "status": 400,
             }
         login(request, auth_user)
         refresh = RefreshToken.for_user(auth_user)
         return 200, {
             "message": "Login Successful!",
             "access_token": str(refresh.access_token),
-            "status": 200
+            "status": 200,
         }
-    return 400, {
-        "error": "Invalid username or password",
-        "status": 400
-    }
+    return 400, {"error": "Invalid username or password", "status": 400}

@@ -13,7 +13,7 @@ def generate_code():
         uid = uuid.uuid4()
         uuid_hex = uid.hex  # convert to hex value
         otp = "".join(filter(str.isdigit, uuid_hex))[:6]
-        if otp[0] != '0':  # Ensure the first digit is not 0
+        if otp[0] != "0":  # Ensure the first digit is not 0
             return otp
 
 
@@ -39,10 +39,7 @@ def send_verification_email(user: "MainUser Instance"):
             template_name="users/verify.html",
             context=context,
         )
-        return {
-            "status": "success",
-            "message": "Verification email sent successfully"
-        }
+        return {"status": "success", "message": "Verification email sent successfully"}
     except Exception as e:
         print(str(e))
         return {"status": "error", "message": str(e)}
@@ -66,10 +63,7 @@ def send_reset_password_email(user: "MainUser Instance"):
             template_name="users/reset.html",
             context=context,
         )
-        return {
-            "status": "success",
-            "message": "Reset email sent successfully"
-        }
+        return {"status": "success", "message": "Reset email sent successfully"}
     except Exception as e:
         print(str(e))
         return {"status": "error", "message": str(e)}
