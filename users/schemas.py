@@ -58,3 +58,6 @@ class EmailVerificationSchema(Schema):
 
 class LoginResponseSchema(Schema):
     """Login Response Schema"""
+    message: str
+    status: int
+    access_token: str

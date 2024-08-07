@@ -124,7 +124,9 @@ def user_login(request, payload: LoginSchema):
         user = email
     else:
         user = username
+    print(user)
     auth_user = authenticate(request, username=user, password=password)
+    print(auth_user)
     if auth_user is not None:
         if not auth_user.is_verified:
             return 400, {
@@ -138,4 +140,7 @@ def user_login(request, payload: LoginSchema):
             "access_token": str(refresh.access_token),
             "status": 200
         }
-    return 400, {"error": "Invalid username or password"}
+    return 400, {
+        "error": "Invalid username or password",
+        "status": 400
+    }
