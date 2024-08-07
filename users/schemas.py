@@ -70,5 +70,5 @@ class ResetPasswordSchema(Schema):
 
 class ChangePasswordSchema(Schema):
     """Schema for updating user password"""
-    email: str
+    password: str
     reset_token: int

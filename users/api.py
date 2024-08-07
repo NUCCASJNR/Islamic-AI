@@ -18,7 +18,8 @@ from .schemas import (
     EmailVerificationSchema,
     LoginSchema,
     LoginResponseSchema,
-    ResetPasswordSchema
+    ResetPasswordSchema,
+    ChangePasswordSchema
 )
 from utils.utils import generate_code
 from utils.utils import send_reset_password_email, send_verification_email
@@ -165,6 +166,7 @@ def reset_password(request, payload: ResetPasswordSchema):
         reset_token = generate_code()
         key = f"Reset_token:{reset_token}"
         user.reset_token = reset_token
+        user.save()
         cache.set(key, reset_token, 60 * 30)
         send_reset_password_email(user)
         return 200, {
@@ -173,5 +175,35 @@ def reset_password(request, payload: ResetPasswordSchema):
         }
     return 400, {
         'error': "Invalid email address",
+        "status": 400
+    }
+
+
+@api.post('/change-password',
+          response={
+              200: MessageSchema,
+              400: ErrorSchema
+          })
+def change_password(request, payload: ChangePasswordSchema):
+    """
+    API route for updating user password
+    :param request: Request obj
+    :param payload: ChangePasswordSchema
+    :return: 200 if successful else 400
+    """
+    reset_token = payload.reset_token
+    password = payload.password
+    key = f"Reset_token:{reset_token}"
+    if cache.get(key):
+        MainUser.custom_update(filter_kwargs={'reset_token': reset_token},
+                               update_kwargs={'password': password,
+                                              'reset_token': None})
+        cache.delete(key)
+        return 200, {
+            'message': "Password has been successfully updated",
+            'status': 200
+        }
+    return 400, {
+        'error': "Invalid Reset token",
         "status": 400
     }
