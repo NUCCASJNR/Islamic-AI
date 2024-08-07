@@ -16,23 +16,6 @@ def hash_password(password: Union[str, int]) -> str:
 
     :param password: str | int
     :param password: Union[str:
-    :param in: returns: The hashed password
-    :param password: Union[str:
-    :param int: returns: The hashed password
-    :param password: Union[str:
-    :param int: returns: The hashed password
-    :param password: Union[str:
-    :param int: returns: The hashed password
-    :param password: Union[str:
-    :param int: returns: The hashed password
-    :param password: Union[str:
-    :param int: returns: The hashed password
-    :param password: Union[str:
-    :param int: returns: The hashed password
-    :param password: Union[str:
-    :param int: returns: The hashed password
-    :param password: Union[str:
-    :param int]:
     :returns: The hashed password
 
     """

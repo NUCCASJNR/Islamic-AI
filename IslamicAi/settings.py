@@ -87,7 +87,7 @@ TEMPLATES = [
     },
 ]
 
-# AUTH_USER_MODEL = "users.MainUser"
+AUTH_USER_MODEL = "users.MainUser"
 
 WSGI_APPLICATION = "IslamicAi.wsgi.application"
 
@@ -109,10 +109,13 @@ db_dict: Dict = {
         "PORT": os.getenv("PORT"),
     },
 }
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Default backend
+    'users.backends.CustomBackend',  # Your custom backend
+]
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "utils.auth.CustomBackend",
+        "users.backends.CustomBackend",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",

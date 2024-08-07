@@ -33,7 +33,9 @@ django-rest-framework==0.1.0
 django-restframework==0.0.1
 djangorestframework==3.15.1
 djangorestframework-simplejwt==5.3.1
+dnspython==2.6.1
 drf-yasg==1.21.7
+email_validator==2.2.0
 exceptiongroup==1.2.1
 flake8==7.0.0
 gunicorn==21.2.0
