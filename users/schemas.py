@@ -66,3 +66,9 @@ class LoginResponseSchema(Schema):
 class ResetPasswordSchema(Schema):
     """Schema for resetting user password"""
     email: str
+
+
+class ChangePasswordSchema(Schema):
+    """Schema for updating user password"""
+    email: str
+    reset_token: int
