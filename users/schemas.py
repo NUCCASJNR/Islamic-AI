@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Contains user related schemas definition"""
 from typing import Optional
+
 from ninja import Schema
-from pydantic import BaseModel, EmailStr, root_validator, model_validator
+from pydantic import BaseModel, EmailStr, model_validator, root_validator
 
 
 class UserSchema(Schema):
