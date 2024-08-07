@@ -1,6 +1,7 @@
-from .models import MainUser
 from django.contrib.auth.backends import ModelBackend
 from django.core.exceptions import ObjectDoesNotExist
+
+from .models import MainUser
 
 
 class CustomBackend(ModelBackend):

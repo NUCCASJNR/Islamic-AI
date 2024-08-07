@@ -10,18 +10,13 @@ from django.shortcuts import get_object_or_404
 from ninja import NinjaAPI
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from utils.utils import (generate_code, send_reset_password_email,
+                         send_verification_email)
+
 from .models import MainUser
-from .schemas import (
-    MessageSchema,
-    UserCreateSchema,
-    ErrorSchema,
-    EmailVerificationSchema,
-    LoginSchema,
-    LoginResponseSchema,
-)
-from utils.utils import generate_code
-from utils.utils import send_reset_password_email
-from utils.utils import send_verification_email
+from .schemas import (EmailVerificationSchema, ErrorSchema,
+                      LoginResponseSchema, LoginSchema, MessageSchema,
+                      UserCreateSchema)
 
 logger = logging.getLogger("apps")
 api = NinjaAPI()
