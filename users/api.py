@@ -3,20 +3,25 @@
 import logging
 from typing import Optional
 
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.core.cache import cache
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from ninja import NinjaAPI
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from utils.utils import (generate_code, send_reset_password_email,
-                         send_verification_email)
-
 from .models import MainUser
-from .schemas import (EmailVerificationSchema, ErrorSchema,
-                      LoginResponseSchema, LoginSchema, MessageSchema,
-                      UserCreateSchema)
+from .schemas import EmailVerificationSchema
+from .schemas import ErrorSchema
+from .schemas import LoginResponseSchema
+from .schemas import LoginSchema
+from .schemas import MessageSchema
+from .schemas import UserCreateSchema
+from utils.utils import generate_code
+from utils.utils import send_reset_password_email
+from utils.utils import send_verification_email
 
 logger = logging.getLogger("apps")
 api = NinjaAPI()
