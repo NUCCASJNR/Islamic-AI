@@ -67,6 +67,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    'honeybadger.contrib.DjangoHoneybadgerMiddleware'
 ]
 
 ROOT_URLCONF = "IslamicAi.urls"
@@ -289,5 +290,7 @@ CACHES = {
         },
     },
 }
-
+HONEYBADGER = {
+  'API_KEY': os.getenv("HONEY_KEY"),
+}
 print(CACHES.get("default").get("LOCATION"))
