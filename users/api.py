@@ -60,12 +60,17 @@ def signup(request, payload: UserCreateSchema):
     # Serialize the user object using UserResponseSchema
 
     return 201, {
-        "message": "Registration successful," " Check your email for verification code",
+        "message": "Registration successful,"
+        " Check your email for verification code",
         "status": 201,
     }
 
 
-@api.post("/email-verification", response={200: MessageSchema, 400: ErrorSchema})
+@api.post("/email-verification",
+          response={
+              200: MessageSchema,
+              400: ErrorSchema
+          })
 def email_verification(request, payload: EmailVerificationSchema):
     """API route for verifying user's email address
 
