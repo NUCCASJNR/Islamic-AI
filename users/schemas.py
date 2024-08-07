@@ -63,6 +63,6 @@ class LoginResponseSchema(Schema):
     access_token: str
 
 
-class ResetPasswordSchema:
+class ResetPasswordSchema(Schema):
     """Schema for resetting user password"""
     email: str
