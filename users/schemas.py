@@ -61,3 +61,8 @@ class LoginResponseSchema(Schema):
     message: str
     status: int
     access_token: str
+
+
+class ResetPasswordSchema:
+    """Schema for resetting user password"""
+    email: str
