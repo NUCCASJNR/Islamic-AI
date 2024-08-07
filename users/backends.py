@@ -10,10 +10,10 @@ class CustomBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         """
 
-        :param request:
+        :param request: param username:  (Default value = None)
+        :param password: Default value = None)
         :param username:  (Default value = None)
-        :param password:  (Default value = None)
-        :param **kwargs:
+        :param **kwargs: 
 
         """
         if username is None:

@@ -8,6 +8,8 @@ from .mails import send_email
 def generate_code():
     """Generates random 6digit code
     :return: The code
+
+
     """
     while True:
         uid = uuid.uuid4()
@@ -21,7 +23,8 @@ def send_verification_email(user: "MainUser Instance"):
     """Handles sending a verification email.
 
     :param user: MainUser Instance
-    :param user: "MainUser Instance":
+    :param user: MainUser Instance":
+    :param user: "MainUser Instance": 
     :returns: JsonResponse: JSON response indicating success or failure.
 
     """
@@ -49,7 +52,8 @@ def send_reset_password_email(user: "MainUser Instance"):
     """Handles sending reset password mail to users
 
     :param user: MainUser Instance
-    :param user: "MainUser Instance":
+    :param user: MainUser Instance":
+    :param user: "MainUser Instance": 
     :returns: Response: JSON response indicating success or failure.
 
     """

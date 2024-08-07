@@ -29,6 +29,7 @@ def signup(request, payload: UserCreateSchema):
     :param request: Request object
     :param payload: User payload
     :param payload: UserCreateSchema:
+    :param payload: UserCreateSchema: 
     :returns: 201 or 400
 
     """
@@ -61,11 +62,13 @@ def signup(request, payload: UserCreateSchema):
 
 @api.post("/email-verification", response={200: MessageSchema, 400: ErrorSchema})
 def email_verification(request, payload: EmailVerificationSchema):
-    """
-    API route for verifying user's email address
+    """API route for verifying user's email address
+
     :param request: Request Obj
     :param payload: Email verification SCHEMA
-    :return: 200 if successful else 400
+    :param payload: EmailVerificationSchema: 
+    :returns: 200 if successful else 400
+
     """
     otp = payload.verification_code
     key = f"Verification_code:{otp}"
@@ -81,11 +84,13 @@ def email_verification(request, payload: EmailVerificationSchema):
 
 @api.post("/auth/login", response={200: LoginResponseSchema, 400: ErrorSchema})
 def user_login(request, payload: LoginSchema):
-    """
-    API view for logging in user
+    """API view for logging in user
+
     :param request: Request object
     :param payload: LoginSchema
-    :return: 200 if successful else 400
+    :param payload: LoginSchema: 
+    :returns: 200 if successful else 400
+
     """
     user = None
     email = payload.email
