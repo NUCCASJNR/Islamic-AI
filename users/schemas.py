@@ -26,7 +26,6 @@ class UserCreateSchema(Schema):
 
 class LoginSchema(BaseModel):
     email: Optional[EmailStr] = None
-    username: Optional[str] = None
     password: str
 
     @model_validator(mode='before')
