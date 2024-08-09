@@ -28,22 +28,24 @@ class LoginSchema(BaseModel):
     email: Optional[EmailStr] = None
     password: str
 
-    @model_validator(mode='before')
+    @model_validator(mode="before")
     def check_email_or_username(cls, values):
-        email, username = values.get('email'), values.get('username')
+        email, username = values.get("email"), values.get("username")
         if not email and not username:
-            raise ValueError('Either email or username must be provided')
+            raise ValueError("Either email or username must be provided")
         return values
 
 
 class ErrorSchema(Schema):
     """ """
+
     error: str
     status: int
 
 
 class MessageSchema(Schema):
     """Message schema"""
+
     message: str
     status: int
 
@@ -52,11 +54,13 @@ class EmailVerificationSchema(Schema):
     """
     Schema for verifying user verification code
     """
+
     verification_code: int
 
 
 class LoginResponseSchema(Schema):
     """Login Response Schema"""
+
     message: str
     status: int
     access_token: str
@@ -64,10 +68,12 @@ class LoginResponseSchema(Schema):
 
 class ResetPasswordSchema(Schema):
     """Schema for resetting user password"""
+
     email: str
 
 
 class ChangePasswordSchema(Schema):
     """Schema for updating user password"""
+
     password: str
     reset_token: int
