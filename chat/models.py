@@ -37,7 +37,7 @@ class Conversation(BaseModel):
         return f"Conversation {self.id} with {self.user.username}"
 
 
-class Message(models.Model):
+class Message(BaseModel):
     """Message Model"""
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
     sender = models.CharField(max_length=10, choices=SENDER_CHOICES)
@@ -49,3 +49,17 @@ class Message(models.Model):
 
     def __str__(self):
         return f"Message {self.id} from {self.sender} in {self.conversation.id}"
+
+
+class KnowledgeBase(BaseModel):
+    question = models.TextField()
+    answer = models.TextField()
+    category = models.CharField(max_length=100)
+    tags = models.CharField(max_length=200, blank=True, null=True)
+    created_by = models.ForeignKey(MainUser, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        db_table = "knowledge_based"
+
+    def __str__(self):
+        return self.question
