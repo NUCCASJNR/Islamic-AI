@@ -28,6 +28,17 @@ logger = logging.getLogger("apps")
 api = NinjaAPI()
 
 
+@api.get('/',
+         response={
+             200: MessageSchema
+         })
+def home(request):
+    return 200, {
+        'message': 'Welcome here, doc here: https://documenter.getpostman.com/view/28289943/2sA3rzLYfH',
+        'status': 200
+    }
+
+
 @api.post("/auth/signup",
           response={
               201: MessageSchema,
