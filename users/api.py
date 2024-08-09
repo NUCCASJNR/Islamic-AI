@@ -44,8 +44,6 @@ def signup(request, payload: UserCreateSchema):
     """
     email: str = payload.email
     username: str = payload.username
-    print(payload)
-    print(payload.dict())
     if MainUser.custom_get(email=email):
         return 400, {
             "error": "Email already exists",
@@ -60,7 +58,6 @@ def signup(request, payload: UserCreateSchema):
     key = f"Verification_code:{otp}"
     payload_data = payload.dict()
     payload_data["verification_code"] = otp
-    print(payload_data)
     user = MainUser.custom_save(**payload_data)
     logger.debug(f"Setting cache with key: {key}, otp: {otp}")
     response = cache.set(key, otp, 60 * 30)
