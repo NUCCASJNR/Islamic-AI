@@ -271,6 +271,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "KEY_PREFIX": "default_",  # Default cache
+            'SSL': True
         },
     },
     "user_cache": {
@@ -279,6 +280,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "KEY_PREFIX": "user_",  # User-related data
+            'SSL': True
         },
     },
     "session_cache": {
@@ -287,6 +289,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "KEY_PREFIX": "session_",  # Session data
+            'SSL': True
         },
     },
 }
