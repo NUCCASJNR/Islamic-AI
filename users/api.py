@@ -19,7 +19,7 @@ from .schemas import (
     LoginSchema,
     LoginResponseSchema,
     ResetPasswordSchema,
-    ChangePasswordSchema
+    ChangePasswordSchema,
 )
 from utils.utils import generate_code
 from utils.utils import send_reset_password_email, send_verification_email
@@ -28,22 +28,15 @@ logger = logging.getLogger("apps")
 api = NinjaAPI()
 
 
-@api.get('/',
-         response={
-             200: MessageSchema
-         })
+@api.get("/", response={200: MessageSchema})
 def home(request):
     return 200, {
-        'message': 'Welcome here, doc here: https://documenter.getpostman.com/view/28289943/2sA3rzLYfH',
-        'status': 200
+        "message": "Welcome here, doc here: https://documenter.getpostman.com/view/28289943/2sA3rzLYfH",
+        "status": 200,
     }
 
 
-@api.post("/auth/signup",
-          response={
-              201: MessageSchema,
-              400: ErrorSchema
-          })
+@api.post("/auth/signup", response={201: MessageSchema, 400: ErrorSchema})
 def signup(request, payload: UserCreateSchema):
     """View for registering a new user
 
@@ -56,15 +49,9 @@ def signup(request, payload: UserCreateSchema):
     email: str = payload.email
     username: str = payload.username
     if MainUser.custom_get(email=email):
-        return 400, {
-            "error": "Email already exists",
-            "status": 400
-        }
+        return 400, {"error": "Email already exists", "status": 400}
     if MainUser.custom_get(username=username):
-        return 400, {
-            "error": "Username already exists",
-            "status": 400
-        }
+        return 400, {"error": "Username already exists", "status": 400}
     otp: int = generate_code()
     key = f"Verification_code:{otp}"
     payload_data = payload.dict()
@@ -80,17 +67,13 @@ def signup(request, payload: UserCreateSchema):
     send_verification_email(user)
     # Serialize the user object using UserResponseSchema
 
-    return 201, {"message": "Registration successful,"
-                            " Check your email for verification code",
-                 "status": 201
-                 }
+    return 201, {
+        "message": "Registration successful," " Check your email for verification code",
+        "status": 201,
+    }
 
 
-@api.post("/email-verification",
-          response={
-              200: MessageSchema,
-              400: ErrorSchema
-          })
+@api.post("/email-verification", response={200: MessageSchema, 400: ErrorSchema})
 def email_verification(request, payload: EmailVerificationSchema):
     """
     API route for verifying user's email address
@@ -106,21 +89,11 @@ def email_verification(request, payload: EmailVerificationSchema):
         user.verification_code = None
         user.save()
         cache.delete(key)
-        return 200, {
-            "message": "Email verification successful",
-            "status": 200
-        }
-    return 400, {
-        "error": "Invalid verification code",
-        "status": 400
-    }
+        return 200, {"message": "Email verification successful", "status": 200}
+    return 400, {"error": "Invalid verification code", "status": 400}
 
 
-@api.post('/auth/login',
-          response={
-              200: LoginResponseSchema,
-              400: ErrorSchema
-          })
+@api.post("/auth/login", response={200: LoginResponseSchema, 400: ErrorSchema})
 def user_login(request, payload: LoginSchema):
     """
     API view for logging in user
@@ -143,26 +116,19 @@ def user_login(request, payload: LoginSchema):
         if not auth_user.is_verified:
             return 400, {
                 "error": "You need to verify your account to login",
-                "status": 400
+                "status": 400,
             }
         login(request, auth_user)
         refresh = RefreshToken.for_user(auth_user)
         return 200, {
             "message": "Login Successful!",
             "access_token": str(refresh.access_token),
-            "status": 200
+            "status": 200,
         }
-    return 400, {
-        "error": "Invalid username or password",
-        "status": 400
-    }
+    return 400, {"error": "Invalid username or password", "status": 400}
 
 
-@api.post('/reset-password',
-          response={
-              200: MessageSchema,
-              400: ErrorSchema
-          })
+@api.post("/reset-password", response={200: MessageSchema, 400: ErrorSchema})
 def reset_password(request, payload: ResetPasswordSchema):
     """
     API route for resetting user password
@@ -180,21 +146,11 @@ def reset_password(request, payload: ResetPasswordSchema):
         user.save()
         cache.set(key, reset_token, 60 * 30)
         send_reset_password_email(user)
-        return 200, {
-            "message": "Reset token successfully sent!",
-            "status": 200
-        }
-    return 400, {
-        'error': "Invalid email address",
-        "status": 400
-    }
+        return 200, {"message": "Reset token successfully sent!", "status": 200}
+    return 400, {"error": "Invalid email address", "status": 400}
 
 
-@api.post('/change-password',
-          response={
-              200: MessageSchema,
-              400: ErrorSchema
-          })
+@api.post("/change-password", response={200: MessageSchema, 400: ErrorSchema})
 def change_password(request, payload: ChangePasswordSchema):
     """
     API route for updating user password
@@ -206,15 +162,10 @@ def change_password(request, payload: ChangePasswordSchema):
     password = payload.password
     key = f"Reset_token:{reset_token}"
     if cache.get(key):
-        MainUser.custom_update(filter_kwargs={'reset_token': reset_token},
-                               update_kwargs={'password': password,
-                                              'reset_token': None})
+        MainUser.custom_update(
+            filter_kwargs={"reset_token": reset_token},
+            update_kwargs={"password": password, "reset_token": None},
+        )
         cache.delete(key)
-        return 200, {
-            'message': "Password has been successfully updated",
-            'status': 200
-        }
-    return 400, {
-        'error': "Invalid Reset token",
-        "status": 400
-    }
+        return 200, {"message": "Password has been successfully updated", "status": 200}
+    return 400, {"error": "Invalid Reset token", "status": 400}
