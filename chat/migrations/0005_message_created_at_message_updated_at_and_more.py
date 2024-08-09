@@ -20,9 +20,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="message",
             name="created_at",
-            field=models.DateTimeField(
-                default=django.utils.timezone.now, editable=False
-            ),
+            field=models.DateTimeField(default=django.utils.timezone.now,
+                                       editable=False),
         ),
         migrations.AddField(
             model_name="message",
@@ -32,9 +31,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="message",
             name="id",
-            field=models.UUIDField(
-                default=uuid.uuid4, editable=False, primary_key=True, serialize=False
-            ),
+            field=models.UUIDField(default=uuid.uuid4,
+                                   editable=False,
+                                   primary_key=True,
+                                   serialize=False),
         ),
         migrations.AlterModelTable(
             name="message",
@@ -54,15 +54,16 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_at",
-                    models.DateTimeField(
-                        default=django.utils.timezone.now, editable=False
-                    ),
+                    models.DateTimeField(default=django.utils.timezone.now,
+                                         editable=False),
                 ),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("question", models.TextField()),
                 ("answer", models.TextField()),
                 ("category", models.CharField(max_length=100)),
-                ("tags", models.CharField(blank=True, max_length=200, null=True)),
+                ("tags", models.CharField(blank=True,
+                                          max_length=200,
+                                          null=True)),
                 (
                     "created_by",
                     models.ForeignKey(

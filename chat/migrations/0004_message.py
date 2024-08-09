@@ -26,9 +26,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "sender",
-                    models.CharField(
-                        choices=[("user", "User"), ("bot", "Bot")], max_length=10
-                    ),
+                    models.CharField(choices=[("user", "User"),
+                                              ("bot", "Bot")],
+                                     max_length=10),
                 ),
                 ("message_text", models.TextField()),
                 (

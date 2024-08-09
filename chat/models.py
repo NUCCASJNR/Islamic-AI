@@ -56,7 +56,9 @@ class KnowledgeBase(BaseModel):
     answer = models.TextField()
     category = models.CharField(max_length=100)
     tags = models.CharField(max_length=200, blank=True, null=True)
-    created_by = models.ForeignKey(MainUser, on_delete=models.SET_NULL, null=True)
+    created_by = models.ForeignKey(MainUser,
+                                   on_delete=models.SET_NULL,
+                                   null=True)
 
     class Meta:
         """ """
