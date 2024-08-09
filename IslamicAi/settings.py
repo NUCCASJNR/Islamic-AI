@@ -268,11 +268,14 @@ try:
     })
 except Exception as e:
     logging.exception("Failed to configure logging: %s", e)
-
+if MODE == "DEV":
+    REDIS_URL = os.getenv("REDIS_UR")
+else:
+    REDIS_URL = os.getenv("REDIS_URL")
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.getenv("REDIS_URL"),
+        "LOCATION": REDIS_URL,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "KEY_PREFIX": "default_",  # Default cache
@@ -281,7 +284,7 @@ CACHES = {
     },
     "user_cache": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.getenv("REDIS_URL"),
+        "LOCATION": REDIS_URL,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "KEY_PREFIX": "user_",  # User-related data
@@ -290,7 +293,7 @@ CACHES = {
     },
     "session_cache": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.getenv("REDIS_URL"),
+        "LOCATION": REDIS_URL,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "KEY_PREFIX": "session_",  # Session data
