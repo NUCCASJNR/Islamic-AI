@@ -131,14 +131,7 @@ def user_login(request, payload: LoginSchema):
     user = None
     email = payload.email
     password = payload.password
-    username = payload.username
-    if email:
-        user = email
-    else:
-        user = username
-    print(user)
-    auth_user = authenticate(request, username=user, password=password)
-    print(auth_user)
+    auth_user = authenticate(request, username=email, password=password)
     if auth_user is not None:
         if not auth_user.is_verified:
             return 400, {
