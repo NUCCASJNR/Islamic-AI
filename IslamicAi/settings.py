@@ -107,7 +107,7 @@ db_dict: Dict = {
         "USER": os.getenv("USER"),
         "PASSWORD": os.getenv("PASSWORD"),
         "HOST": os.getenv("HOST"),
-        "PORT": os.getenv("PORT"),
+        "PORT": os.getenv("PR_PORT"),
     },
 }
 AUTHENTICATION_BACKENDS = [
