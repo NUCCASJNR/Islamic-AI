@@ -4,6 +4,7 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
+    """ """
 
     dependencies = [
         ("chat", "0002_alter_conversation_table"),

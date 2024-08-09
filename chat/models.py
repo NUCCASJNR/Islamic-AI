@@ -28,6 +28,7 @@ class Conversation(BaseModel):
     context_data = models.JSONField(null=True, blank=True)
 
     class Meta:
+        """ """
         db_table = "conversations"
 
     def __str__(self):
@@ -43,6 +44,7 @@ class Message(BaseModel):
     response_type = models.CharField(max_length=50, choices=MESSAGE_CHOICES)
 
     class Meta:
+        """ """
         db_table = "messages"
 
     def __str__(self):
@@ -50,6 +52,7 @@ class Message(BaseModel):
 
 
 class KnowledgeBase(BaseModel):
+    """ """
     question = models.TextField()
     answer = models.TextField()
     category = models.CharField(max_length=100)
@@ -57,6 +60,7 @@ class KnowledgeBase(BaseModel):
     created_by = models.ForeignKey(MainUser, on_delete=models.SET_NULL, null=True)
 
     class Meta:
+        """ """
         db_table = "knowledge_based"
 
     def __str__(self):

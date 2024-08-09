@@ -24,6 +24,11 @@ api = NinjaAPI()
 
 @api.get("/", response={200: MessageSchema})
 def home(request):
+    """
+
+    :param request: 
+
+    """
     return 200, {
         "message": "Welcome here, doc here: https://documenter.getpostman.com/view/28289943/2sA3rzLYfH",
         "status": 200,
@@ -37,6 +42,7 @@ def signup(request, payload: UserCreateSchema):
     :param request: Request object
     :param payload: User payload
     :param payload: UserCreateSchema:
+    :param payload: UserCreateSchema: 
     :returns: 201 or 400
 
     """
@@ -69,11 +75,13 @@ def signup(request, payload: UserCreateSchema):
 
 @api.post("/email-verification", response={200: MessageSchema, 400: ErrorSchema})
 def email_verification(request, payload: EmailVerificationSchema):
-    """
-    API route for verifying user's email address
+    """API route for verifying user's email address
+
     :param request: Request Obj
     :param payload: Email verification SCHEMA
-    :return: 200 if successful else 400
+    :param payload: EmailVerificationSchema: 
+    :returns: 200 if successful else 400
+
     """
     otp = payload.verification_code
     key = f"Verification_code:{otp}"
@@ -89,11 +97,13 @@ def email_verification(request, payload: EmailVerificationSchema):
 
 @api.post("/auth/login", response={200: LoginResponseSchema, 400: ErrorSchema})
 def user_login(request, payload: LoginSchema):
-    """
-    API view for logging in user
+    """API view for logging in user
+
     :param request: Request object
     :param payload: LoginSchema
-    :return: 200 if successful else 400
+    :param payload: LoginSchema: 
+    :returns: 200 if successful else 400
+
     """
     user = None
     email = payload.email
@@ -117,11 +127,13 @@ def user_login(request, payload: LoginSchema):
 
 @api.post("/reset-password", response={200: MessageSchema, 400: ErrorSchema})
 def reset_password(request, payload: ResetPasswordSchema):
-    """
-    API route for resetting user password
+    """API route for resetting user password
+
     :param request: Request obj
     :param payload: ResetPasswordSchema
-    :return: 200 if successful else 400
+    :param payload: ResetPasswordSchema: 
+    :returns: 200 if successful else 400
+
     """
     print(payload)
     email = payload.email
@@ -139,11 +151,13 @@ def reset_password(request, payload: ResetPasswordSchema):
 
 @api.post("/change-password", response={200: MessageSchema, 400: ErrorSchema})
 def change_password(request, payload: ChangePasswordSchema):
-    """
-    API route for updating user password
+    """API route for updating user password
+
     :param request: Request obj
     :param payload: ChangePasswordSchema
-    :return: 200 if successful else 400
+    :param payload: ChangePasswordSchema: 
+    :returns: 200 if successful else 400
+
     """
     reset_token = payload.reset_token
     password = payload.password

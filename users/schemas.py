@@ -26,11 +26,17 @@ class UserCreateSchema(Schema):
 
 
 class LoginSchema(BaseModel):
+    """ """
     email: Optional[EmailStr] = None
     password: str
 
     @model_validator(mode="before")
     def check_email_or_username(cls, values):
+        """
+
+        :param values: 
+
+        """
         email, username = values.get("email"), values.get("username")
         if not email and not username:
             raise ValueError("Either email or username must be provided")
@@ -52,9 +58,7 @@ class MessageSchema(Schema):
 
 
 class EmailVerificationSchema(Schema):
-    """
-    Schema for verifying user verification code
-    """
+    """Schema for verifying user verification code"""
 
     verification_code: int
 
