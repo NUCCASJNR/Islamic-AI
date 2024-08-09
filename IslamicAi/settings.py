@@ -37,7 +37,6 @@ if MODE == "DEV":
 else:
     DEBUG = False
 
-
 ALLOWED_HOSTS = ["*"]
 
 # Application definition
@@ -72,7 +71,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    'honeybadger.contrib.DjangoHoneybadgerMiddleware'
+    "honeybadger.contrib.DjangoHoneybadgerMiddleware",
 ]
 
 ROOT_URLCONF = "IslamicAi.urls"
@@ -116,8 +115,8 @@ db_dict: Dict = {
     },
 }
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # Default backend
-    'users.backends.CustomBackend',  # Your custom backend
+    "django.contrib.auth.backends.ModelBackend",  # Default backend
+    "users.backends.CustomBackend",  # Your custom backend
 ]
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -279,7 +278,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "KEY_PREFIX": "default_",  # Default cache
-            'SSL': True
+            "SSL": True,
         },
     },
     "user_cache": {
@@ -288,7 +287,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "KEY_PREFIX": "user_",  # User-related data
-            'SSL': True
+            "SSL": True,
         },
     },
     "session_cache": {
@@ -297,11 +296,11 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "KEY_PREFIX": "session_",  # Session data
-            'SSL': True
+            "SSL": True,
         },
     },
 }
 HONEYBADGER = {
-  'API_KEY': os.getenv("HONEY_KEY"),
+    "API_KEY": os.getenv("HONEY_KEY"),
 }
 print(CACHES.get("default").get("LOCATION"))
