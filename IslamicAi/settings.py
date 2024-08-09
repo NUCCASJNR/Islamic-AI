@@ -9,12 +9,12 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
 import logging.config
 import os
 from datetime import timedelta
 from pathlib import Path
-from typing import Dict, Union
+from typing import Dict
+from typing import Union
 
 from django.utils.log import DEFAULT_LOGGING
 from dotenv import load_dotenv
