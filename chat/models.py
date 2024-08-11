@@ -63,3 +63,15 @@ class KnowledgeBase(BaseModel):
 
     def __str__(self):
         return self.question
+
+
+class FAQS(BaseModel):
+    """Frequently asked questions Model"""
+    question = models.TextField()
+    answer = models.TextField()
+
+    class Meta:
+        db_table = 'frequently_asked_questions'
+
+    def __str__(self):
+        return f'Question:{self.question}: Answer:{self.answer}'
