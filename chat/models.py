@@ -75,3 +75,22 @@ class FAQS(BaseModel):
 
     def __str__(self):
         return f'Question:{self.question}: Answer:{self.answer}'
+
+
+# RATING_CHOICES = [
+#     (1, 1),
+#     (2, 2)
+# ]
+class FeedBack(BaseModel):
+    """feedback model"""
+    user = models.ForeignKey(MainUser, on_delete=models.CASCADE)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)
+    feedback_text = models.TextField()
+    rating = models.PositiveIntegerField()
+
+    class Meta:
+        db_table = 'feedbacks'
+
+    def __str__(self):
+        return self.feedback_text
