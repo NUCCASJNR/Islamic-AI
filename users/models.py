@@ -79,28 +79,6 @@ class MainUser(AbstractUser, BaseModel):
 
     @full_name.setter
     def full_name(self, first_name: str, last_name: str) -> None:
-        """
-
-        :param first_name: str:
-        :param last_name: str:
-        :param first_name: str:
-        :param last_name: str:
-        :param first_name: str:
-        :param last_name: str:
-        :param first_name: str:
-        :param last_name: str:
-        :param first_name: str:
-        :param last_name: str:
-        :param first_name: str:
-        :param last_name: str:
-        :param first_name: str:
-        :param last_name: str:
-        :param first_name: str:
-        :param last_name: str:
-        :param first_name: str:
-        :param last_name: str:
-
-        """
         self.first_name = first_name
         self.last_name = last_name
         self.save()
