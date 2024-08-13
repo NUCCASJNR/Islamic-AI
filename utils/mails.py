@@ -17,10 +17,10 @@ def send_email(
 ):
     """Sends an email using the specified HTML template and context.
 
-    :param subject: str: 
-    :param recipient_list: List[str]: 
-    :param template_name: str: 
-    :param context: Dict: 
+    :param subject: str:
+    :param recipient_list: List[str]:
+    :param template_name: str:
+    :param context: Dict:
     :param from_email:  (Default value = None)
 
     """

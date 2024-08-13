@@ -28,8 +28,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """
 
-        :param *args: 
-        :param **options: 
+        :param *args:
+        :param **options:
 
         """
         print("Starting celery worker and beat with autoreload...")

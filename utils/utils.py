@@ -25,7 +25,7 @@ def send_verification_email(user: "MainUser Instance"):
 
     :param user: MainUser Instance
     :param user: MainUser Instance":
-    :param user: "MainUser Instance": 
+    :param user: "MainUser Instance":
     :returns: JsonResponse: JSON response indicating success or failure.
 
     """
@@ -54,7 +54,7 @@ def send_reset_password_email(user: "MainUser Instance"):
 
     :param user: MainUser Instance
     :param user: MainUser Instance":
-    :param user: "MainUser Instance": 
+    :param user: "MainUser Instance":
     :returns: Response: JSON response indicating success or failure.
 
     """
@@ -77,7 +77,7 @@ def send_reset_password_email(user: "MainUser Instance"):
 def send_daily_hadith(user):
     """Handles sending daily hadiths to users
 
-    :param user: 
+    :param user:
 
     """
     if user is None:
