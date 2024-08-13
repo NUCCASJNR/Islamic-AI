@@ -32,6 +32,7 @@ def send_email(
     text_content = strip_tags(html_content)
 
     # Create email message
-    msg = EmailMultiAlternatives(subject, text_content, from_email, recipient_list)
+    msg = EmailMultiAlternatives(subject, text_content, from_email,
+                                 recipient_list)
     msg.attach_alternative(html_content, "text/html")
     msg.send()

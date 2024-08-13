@@ -43,7 +43,10 @@ def send_verification_email(user: "MainUser Instance"):
             template_name="users/verify.html",
             context=context,
         )
-        return {"status": "success", "message": "Verification email sent successfully"}
+        return {
+            "status": "success",
+            "message": "Verification email sent successfully"
+        }
     except Exception as e:
         print(str(e))
         return {"status": "error", "message": str(e)}
@@ -68,7 +71,10 @@ def send_reset_password_email(user: "MainUser Instance"):
             template_name="users/reset.html",
             context=context,
         )
-        return {"status": "success", "message": "Reset email sent successfully"}
+        return {
+            "status": "success",
+            "message": "Reset email sent successfully"
+        }
     except Exception as e:
         print(str(e))
         return {"status": "error", "message": str(e)}
@@ -83,7 +89,10 @@ def send_daily_hadith(user):
     if user is None:
         return {"status": "error", "message": "Invalid user instance provided"}
     hadith = get_random_hadith()
-    context = {"arabic": hadith.get("arabic"), "english": hadith.get("english")}
+    context = {
+        "arabic": hadith.get("arabic"),
+        "english": hadith.get("english")
+    }
     try:
         send_email(
             subject="Daily Hadith",
@@ -91,7 +100,10 @@ def send_daily_hadith(user):
             template_name="chat/hadith.html",
             context=context,
         )
-        return {"status": "success", "message": "Daily hadith sent successfully"}
+        return {
+            "status": "success",
+            "message": "Daily hadith sent successfully"
+        }
     except Exception as e:
         print(str(e))
         return {"status": "error", "message": str(e)}

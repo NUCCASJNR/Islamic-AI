@@ -33,7 +33,8 @@ def get_random_hadith():
     response = requests.get(api_url, params)
     data = response.json()
     if data:
-        if data["status"] == 200 and "hadiths" in data and "data" in data["hadiths"]:
+        if data["status"] == 200 and "hadiths" in data and "data" in data[
+                "hadiths"]:
             hadiths = data["hadiths"]["data"]
             if hadiths:
                 for hadith in hadiths:

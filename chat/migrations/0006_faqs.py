@@ -28,9 +28,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_at",
-                    models.DateTimeField(
-                        default=django.utils.timezone.now, editable=False
-                    ),
+                    models.DateTimeField(default=django.utils.timezone.now,
+                                         editable=False),
                 ),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("question", models.TextField()),

@@ -31,9 +31,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_at",
-                    models.DateTimeField(
-                        default=django.utils.timezone.now, editable=False
-                    ),
+                    models.DateTimeField(default=django.utils.timezone.now,
+                                         editable=False),
                 ),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("feedback_text", models.TextField()),
@@ -48,8 +47,8 @@ class Migration(migrations.Migration):
                 (
                     "message",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="chat.message"
-                    ),
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="chat.message"),
                 ),
                 (
                     "user",
