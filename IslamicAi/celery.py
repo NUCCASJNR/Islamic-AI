@@ -5,23 +5,23 @@
 from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
+from celery.schedules import crontab
+
 
 # os.environ['DJANGO_SETTINGS_MODULE'] = os.getenv('DJANGO_SETTINGS_MODULE', 'RentEase.settings.dev')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'IslamicAi.settings')
-
-
-# Create a Celery instance
 app = Celery('IslamicAi')
-
-# Load the Django settings for Celery
+app.conf.beat_schedule = {
+    'send-daily-hadith': {
+        'task': 'utils.tasks.send_hadith',
+        'schedule': crontab(hour=11, minute=34),  # 6:00 AM daily
+    },
+}
 app.config_from_object('django.conf:settings', namespace='CELERY')
-# Auto-discover tasks
-app.autodiscover_tasks()
-
-# Set Celery log level to debug
+app.autodiscover_tasks(['utils.tasks'])
 app.conf.update(
-    task_track_started=True,  # Track the started state of tasks (optional)
-    loglevel='DEBUG',         # Set log level to debug
+    task_track_started=True,
+    loglevel='DEBUG',
 )
 
 app.conf.broker_connection_max_retry_on_startup = True

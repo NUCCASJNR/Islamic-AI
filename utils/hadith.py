@@ -1,6 +1,5 @@
 import requests
 import random
-from time import sleep
 from os import getenv
 from dotenv import load_dotenv
 load_dotenv()
@@ -22,13 +21,14 @@ hadith_status = ["Sahih", "Hasan"]
 def get_random_hadith():
     random_narrator = random.choice(list(narrators.keys()))
     random_status = random.choice(hadith_status)
+    random_page = random.randint(1, 1000)
 
-    print(f"Selected Narrator: {random_narrator}, Status: {random_status}")
+    # print(f"Selected Narrator: {random_narrator}, Status: {random_status}")
     params = {
         'apiKey': getenv("API_KEY"),
         'book': narrators[random_narrator],
         # 'status': random_status,
-        'paginate': 500
+        'paginate': random_page
     }
 
     response = requests.get(api_url, params)
@@ -51,4 +51,4 @@ def get_random_hadith():
         print("Failed to retrieve Hadiths after multiple attempts.")
 
 
-print(get_random_hadith())
+# print(get_random_hadith().get('arabic'))

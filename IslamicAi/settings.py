@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "users",
     "chat",
     "ninja",
+    "django_celery_beat"
 ]
 
 MIDDLEWARE = [
@@ -270,8 +271,12 @@ except Exception as e:
     logging.exception("Failed to configure logging: %s", e)
 if MODE == "DEV":
     REDIS_URL = os.getenv("REDIS_UR")
+    CELERY_BROKER_URL = os.getenv("REDIS_UR")
+    CELERY_RESULT_BACKEND = os.getenv("REDIS_UR")
 else:
     REDIS_URL = os.getenv("REDIS_URL")
+    CELERY_BROKER_URL = os.getenv("REDIS_UR")
+    CELERY_RESULT_BACKEND = os.getenv("REDIS_UR")
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -301,7 +306,8 @@ CACHES = {
         },
     },
 }
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 HONEYBADGER = {
   'API_KEY': os.getenv("HONEY_KEY"),
 }
-print(CACHES.get("default").get("LOCATION"))

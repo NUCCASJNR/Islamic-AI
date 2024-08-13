@@ -2,3 +2,5 @@
 /logs/
 /.venv/
 **/__pycache__/
+/celery_beat.log
+/celery_worker.log

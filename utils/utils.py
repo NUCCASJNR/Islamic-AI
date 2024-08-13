@@ -80,7 +80,9 @@ def send_daily_hadith(user):
     """Handles sending daily hadiths to users"""
     if user is None:
         return {"status": "error", "message": "Invalid user instance provided"}
-    context = {"reset_token": user.reset_token}
+    hadith = get_random_hadith()
+    context = {"arabic": hadith.get("arabic"),
+               "english": hadith.get("english")}
     try:
         send_email(
             subject="Daily Hadith",
