@@ -6,6 +6,7 @@ from django.utils import autoreload
 
 
 def restart_celery():
+    """ """
     # Kill any running celery worker processes
     cmd = 'pkill -f "celery worker"'
     subprocess.call(shlex.split(cmd))
@@ -23,6 +24,13 @@ def restart_celery():
 
 
 class Command(BaseCommand):
+    """ """
     def handle(self, *args, **options):
+        """
+
+        :param *args: 
+        :param **options: 
+
+        """
         print("Starting celery worker and beat with autoreload...")
         autoreload.run_with_reloader(restart_celery)

@@ -14,7 +14,15 @@ def send_email(
     context: Dict,
     from_email=None,
 ):
-    """Sends an email using the specified HTML template and context."""
+    """Sends an email using the specified HTML template and context.
+
+    :param subject: str: 
+    :param recipient_list: List[str]: 
+    :param template_name: str: 
+    :param context: Dict: 
+    :param from_email:  (Default value = None)
+
+    """
     if from_email is None:
         from_email = settings.EMAIL_HOST_USER
 

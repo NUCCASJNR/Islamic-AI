@@ -13,6 +13,8 @@ def hash_password(password: Union[str, int]) -> str:
 
     :param password: str | int
     :param password: Union[str:
+    :param password: Union[str: 
+    :param int]: 
     :returns: The hashed password
 
     """
@@ -50,7 +52,8 @@ class MainUser(AbstractUser, BaseModel):
     @classmethod
     def custom_save(cls, **kwargs):
         """Overrides the custom_save method to hash the password before saving
-        :param **kwargs:
+
+        :param **kwargs: 
 
         """
         if "password" in kwargs:
@@ -70,6 +73,12 @@ class MainUser(AbstractUser, BaseModel):
 
     @full_name.setter
     def full_name(self, first_name: str, last_name: str) -> None:
+        """
+
+        :param first_name: str: 
+        :param last_name: str: 
+
+        """
         self.first_name = first_name
         self.last_name = last_name
         self.save()

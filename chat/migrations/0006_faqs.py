@@ -7,6 +7,7 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """ """
 
     dependencies = [
         ("chat", "0005_message_created_at_message_updated_at_and_more"),
