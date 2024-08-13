@@ -23,7 +23,6 @@ def get_random_hadith():
     params = {
         'apiKey': getenv("API_KEY"),
         'book': narrators[random_narrator],
-        # 'status': random_status,
         'paginate': random_page
     }
 
