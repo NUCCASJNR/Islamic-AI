@@ -3,6 +3,7 @@ import uuid
 from django.http import JsonResponse
 
 from .mails import send_email
+from .hadith import get_random_hadith
 
 
 def generate_code():
@@ -69,6 +70,27 @@ def send_reset_password_email(user: "MainUser Instance"):
         return {
             "status": "success",
             "message": "Reset email sent successfully"
+        }
+    except Exception as e:
+        print(str(e))
+        return {"status": "error", "message": str(e)}
+
+
+def send_daily_hadith(user):
+    """Handles sending daily hadiths to users"""
+    if user is None:
+        return {"status": "error", "message": "Invalid user instance provided"}
+    context = {"reset_token": user.reset_token}
+    try:
+        send_email(
+            subject="Daily Hadith",
+            recipient_list=[user.email],
+            template_name="chat/hadith.html",
+            context=context,
+        )
+        return {
+            "status": "success",
+            "message": "Daily hadith sent successfully"
         }
     except Exception as e:
         print(str(e))

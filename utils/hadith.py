@@ -13,24 +13,25 @@ narrators = {
     "Sunan Abu Dawood": "abu-dawood",
     "Sunan Ibn-e-Majah": "ibn-e-majah",
     "Sunan An-Nasa`i": "sunan-nasai",
-    "Mishkat Al-Masabih": "mishkat",
-    "Musnad Ahmad": "musnad-ahmad",
-    "Al-Silsila Sahiha": "al-silsila-sahiha"
+    "Mishkat Al-Masabih": "mishkat"
 }
 
-hadith_status = ["Sahih", "Hasan", "Da`eef"]
+hadith_status = ["Sahih", "Hasan"]
 
 
-def get_hadiths(api_url, params, retries=3, backoff_factor=0.3):
-    for attempt in range(retries):
-        try:
-            response = requests.get(api_url, params=params)
-            response.raise_for_status()
-            return response.json()
-        except requests.exceptions.RequestException as error:
-            print(f"Attempt {attempt + 1} failed: {error}")
-            sleep(backoff_factor * (2 ** attempt))
-    return None
+# def get_hadiths(api_url, params, retries=3, backoff_factor=0.3):
+#     for attempt in range(retries):
+#         try:
+#             full_url = f"{api_url}?{requests.compat.urlencode(params)}"
+#             print(f"Attempting URL: {full_url}")  # Debugging output
+#             response = requests.get(full_url)
+#             response.raise_for_status()
+#             return response.json()
+#         except requests.exceptions.RequestException as error:
+#             print(f"Attempt {attempt + 1} failed: {error}")
+#             sleep(backoff_factor * (2 ** attempt))
+#     return None
+
 
 
 def get_random_hadith():
@@ -42,25 +43,23 @@ def get_random_hadith():
     params = {
         'apiKey': getenv("API_KEY"),
         'book': narrators[random_narrator],
-        'status': random_status,
+        # 'status': random_status,
         'paginate': 1
     }
 
-    data = get_hadiths(api_url, params)
-
+    response = requests.get(api_url, params)
+    data = response.json()
     if data:
         if data['status'] == 200 and 'hadiths' in data and 'data' in data['hadiths']:
             hadiths = data['hadiths']['data']
             if hadiths:
                 for hadith in hadiths:
-                    arabic_version = hadith['hadithArabic']
-                    english_version = hadith['hadithEnglish']
-                    narrator = hadith['englishNarrator']
-
-                    print(f"Narrator: {narrator}")
-                    print(f"Arabic Version: {arabic_version}")
-                    print(f"English Version: {english_version}")
-                    print("-" * 50)
+                    print(hadith)
+                    return {
+                        'arabic': hadith['hadithArabic'],
+                        'english': hadith['hadithEnglish'],
+                        "narrator": hadith['englishNarrator']
+                    }
             else:
                 print("No Hadiths found.")
         else:
@@ -69,4 +68,4 @@ def get_random_hadith():
         print("Failed to retrieve Hadiths after multiple attempts.")
 
 
-get_random_hadith()
+print(get_random_hadith())

@@ -58,7 +58,6 @@ class MainUser(AbstractUser, BaseModel):
     @classmethod
     def custom_save(cls, **kwargs):
         """Overrides the custom_save method to hash the password before saving
-
         :param **kwargs:
 
         """
