@@ -19,6 +19,7 @@ narrators = {
 
 
 def get_random_hadith():
+    """ """
     random_narrator = random.choice(list(narrators.keys()))
     # random_status = random.choice(hadith_status)
     random_page = random.randint(1, 1000)
