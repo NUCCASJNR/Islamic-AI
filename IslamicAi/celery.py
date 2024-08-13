@@ -9,22 +9,22 @@ from celery.schedules import crontab
 
 
 # os.environ['DJANGO_SETTINGS_MODULE'] = os.getenv('DJANGO_SETTINGS_MODULE', 'RentEase.settings.dev')
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'IslamicAi.settings')
-app = Celery('IslamicAi')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "IslamicAi.settings")
+app = Celery("IslamicAi")
 app.conf.beat_schedule = {
-    'send-daily-hadith': {
-        'task': 'utils.tasks.send_hadith',
-        'schedule': crontab(hour=11, minute=34),  # 6:00 AM daily
+    "send-daily-hadith": {
+        "task": "utils.tasks.send_hadith",
+        "schedule": crontab(hour=11, minute=34),  # 6:00 AM daily
     },
 }
-app.config_from_object('django.conf:settings', namespace='CELERY')
-app.autodiscover_tasks(['utils.tasks'])
+app.config_from_object("django.conf:settings", namespace="CELERY")
+app.autodiscover_tasks(["utils.tasks"])
 app.conf.update(
     task_track_started=True,
-    loglevel='DEBUG',
+    loglevel="DEBUG",
 )
 
 app.conf.broker_connection_max_retry_on_startup = True
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.start()

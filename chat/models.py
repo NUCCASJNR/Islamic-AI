@@ -6,28 +6,25 @@ from utils.base_model import BaseModel, models
 from users.models import MainUser
 
 CONVERSATION_CHOICES = [
-    ('active', 'Active'),
-    ('completed', 'Completed'),
-    ('escalated', 'Escalated')
+    ("active", "Active"),
+    ("completed", "Completed"),
+    ("escalated", "Escalated"),
 ]
 
 MESSAGE_CHOICES = [
-    ('text', 'Text'),
-    ('suggestion', 'Suggestion'),
-    ('follow-up', 'Follow-up')
+    ("text", "Text"),
+    ("suggestion", "Suggestion"),
+    ("follow-up", "Follow-up"),
 ]
 
-SENDER_CHOICES = [
-    ('user', 'User'),
-    ('bot', 'Bot')
-]
+SENDER_CHOICES = [("user", "User"), ("bot", "Bot")]
 
 
 class Conversation(BaseModel):
     """Conversation Model"""
+
     user = models.ForeignKey(MainUser, on_delete=models.CASCADE)
-    status = models.CharField(max_length=50,
-                              choices=CONVERSATION_CHOICES)
+    status = models.CharField(max_length=50, choices=CONVERSATION_CHOICES)
     context_data = models.JSONField(null=True, blank=True)
 
     class Meta:
@@ -39,6 +36,7 @@ class Conversation(BaseModel):
 
 class Message(BaseModel):
     """Message Model"""
+
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
     sender = models.CharField(max_length=10, choices=SENDER_CHOICES)
     message_text = models.TextField()
@@ -67,14 +65,15 @@ class KnowledgeBase(BaseModel):
 
 class FAQS(BaseModel):
     """Frequently asked questions Model"""
+
     question = models.TextField()
     answer = models.TextField()
 
     class Meta:
-        db_table = 'frequently_asked_questions'
+        db_table = "frequently_asked_questions"
 
     def __str__(self):
-        return f'Question:{self.question}: Answer:{self.answer}'
+        return f"Question:{self.question}: Answer:{self.answer}"
 
 
 # RATING_CHOICES = [
@@ -83,6 +82,7 @@ class FAQS(BaseModel):
 # ]
 class FeedBack(BaseModel):
     """feedback model"""
+
     user = models.ForeignKey(MainUser, on_delete=models.CASCADE)
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
@@ -90,7 +90,7 @@ class FeedBack(BaseModel):
     rating = models.PositiveIntegerField()
 
     class Meta:
-        db_table = 'feedbacks'
+        db_table = "feedbacks"
 
     def __str__(self):
         return self.feedback_text
