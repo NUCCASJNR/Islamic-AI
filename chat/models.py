@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-
 """Contains chat related models"""
-
 from users.models import MainUser
-from utils.base_model import BaseModel, models
+from utils.base_model import BaseModel
+from utils.base_model import models
 
 CONVERSATION_CHOICES = [
     ("active", "Active"),
