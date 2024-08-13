@@ -2,8 +2,8 @@ import uuid
 
 from django.http import JsonResponse
 
-from .mails import send_email
 from .hadith import get_random_hadith
+from .mails import send_email
 
 
 def generate_code():

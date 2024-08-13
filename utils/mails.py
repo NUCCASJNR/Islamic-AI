@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-from typing import Dict
-from typing import List
+from typing import Dict, List
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives

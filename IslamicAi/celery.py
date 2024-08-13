@@ -3,10 +3,11 @@
 """Celery configuration"""
 
 from __future__ import absolute_import, unicode_literals
+
 import os
+
 from celery import Celery
 from celery.schedules import crontab
-
 
 # os.environ['DJANGO_SETTINGS_MODULE'] = os.getenv('DJANGO_SETTINGS_MODULE', 'RentEase.settings.dev')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "IslamicAi.settings")
