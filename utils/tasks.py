@@ -8,4 +8,3 @@ def send_hadith():
     users = MainUser.objects.all()
     for user in users:
         send_daily_hadith(user)
-

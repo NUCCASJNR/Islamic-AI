@@ -15,15 +15,11 @@ narrators = {
     "Mishkat Al-Masabih": "mishkat"
 }
 
-hadith_status = ["Sahih", "Hasan"]
-
 
 def get_random_hadith():
     random_narrator = random.choice(list(narrators.keys()))
-    random_status = random.choice(hadith_status)
+    # random_status = random.choice(hadith_status)
     random_page = random.randint(1, 1000)
-
-    # print(f"Selected Narrator: {random_narrator}, Status: {random_status}")
     params = {
         'apiKey': getenv("API_KEY"),
         'book': narrators[random_narrator],
