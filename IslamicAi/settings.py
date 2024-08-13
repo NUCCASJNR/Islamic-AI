@@ -309,5 +309,5 @@ CACHES = {
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 HONEYBADGER = {
-  'API_KEY': os.getenv("HONEY_KEY"),
+    'API_KEY': os.getenv("HONEY_KEY"),
 }
