@@ -16,20 +16,6 @@ def send_email(
     from_email=None,
 ):
     """Sends an email using the specified HTML template and context.
-
-    :param subject: str
-    :param recipient_list: list
-    :param template_name: str
-    :param context: dict
-    :param rendered: in the template
-    :param from_email: str (Default value = None)
-    :param Defaults: to settings
-    :param subject: str:
-    :param recipient_list: List[str]:
-    :param template_name: str:
-    :param context: Dict:
-    :returns: None
-
     """
     if from_email is None:
         from_email = settings.EMAIL_HOST_USER
