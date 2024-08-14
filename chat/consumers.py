@@ -6,6 +6,8 @@ from asgiref.sync import sync_to_async
 from chat.models import MainUser, Conversation, Message
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
+from channels.db import database_sync_to_async
+
 
 logging.basicConfig(level=logging.DEBUG, filename='app.log')
 
@@ -24,7 +26,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         Connect method
         :return: Nothing
         """
-        self.sender_id = self.scope['url_route']['kwargs']['sender_id']
+        self.sender_id = self.scope['url_route']['kwargs']['user_id']
         token = self.scope.get("query_string").decode().split("Bearer%20")[1]
         auth_info = await self.get_auth_info(token)
 
@@ -45,6 +47,9 @@ class MessageConsumer(AsyncWebsocketConsumer):
 
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()
+
+    def get_conversation(self, room):
+        return str(room.split("_")[1])
 
     async def disconnect(self, close_code):
         """
