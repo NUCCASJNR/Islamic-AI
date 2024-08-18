@@ -1,4 +1,3 @@
-
 import json
 import logging
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -10,7 +9,7 @@ from datetime import datetime
 from channels.db import database_sync_to_async
 
 
-logging.basicConfig(level=logging.DEBUG, filename='app.log')
+logging.basicConfig(level=logging.DEBUG, filename="app.log")
 
 
 class MessageConsumer(AsyncWebsocketConsumer):
@@ -27,20 +26,20 @@ class MessageConsumer(AsyncWebsocketConsumer):
         Connect method
         :return: Nothing
         """
-        self.sender_id = self.scope['url_route']['kwargs']['user_id']
+        self.sender_id = self.scope["url_route"]["kwargs"]["user_id"]
         token = self.scope.get("query_string").decode().split("Bearer%20")[1]
         auth_info = await self.get_auth_info(token)
 
-        if not auth_info['status']:
+        if not auth_info["status"]:
             await self.close()
             return f'Error: {auth_info["response"]}'
 
-        self.user_id = auth_info.get('user_id', None)
-        self.user = await self.get_user_by_id(auth_info['user_id'])
+        self.user_id = auth_info.get("user_id", None)
+        self.user = await self.get_user_by_id(auth_info["user_id"])
 
         if not self.user:
             await self.close()
-            return 'Error: User not found'
+            return "Error: User not found"
 
         # Create or get the conversation
         conversation = await self.get_or_create_conversation(self.user_id)
@@ -77,12 +76,13 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 obj = datetime.fromisoformat(str(response.updated_at))
                 time = obj.strftime("%A, %d %B %Y, %I:%M %p")
                 await self.channel_layer.group_send(
-                    self.room_group_name, {
+                    self.room_group_name,
+                    {
                         "type": "chat.message",
                         "message": message,
                         "sender": sender,
-                        "time": time
-                    }
+                        "time": time,
+                    },
                 )
             else:
                 logging.error("Failed to save message")
@@ -99,12 +99,17 @@ class MessageConsumer(AsyncWebsocketConsumer):
         """
         message = event["message"]
         sender = event["sender"]
-        logging.info("Sending message '%s' from sender '%s' to room '%s'", message, sender, self.room_group_name)
-        await self.send(text_data=json.dumps({
-            "message": message,
-            "sender": sender,
-            "time": event["time"]
-        }))
+        logging.info(
+            "Sending message '%s' from sender '%s' to room '%s'",
+            message,
+            sender,
+            self.room_group_name,
+        )
+        await self.send(
+            text_data=json.dumps(
+                {"message": message, "sender": sender, "time": event["time"]}
+            )
+        )
 
     async def get_auth_info(self, token):
         """
@@ -115,16 +120,10 @@ class MessageConsumer(AsyncWebsocketConsumer):
         try:
             decoded_token = AccessToken(token)
             if decoded_token.get("user_id"):
-                return {
-                    "status": True,
-                    "user_id": decoded_token.get("user_id")
-                }
+                return {"status": True, "user_id": decoded_token.get("user_id")}
             return False
         except Exception as e:
-            return {
-                "status": False,
-                "response": str(e)
-            }
+            return {"status": False, "response": str(e)}
 
     async def close(self):
         pass
@@ -142,7 +141,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         except MainUser.DoesNotExist:
             return None
         except Exception as e:
-            return f'Error: {e}'
+            return f"Error: {e}"
 
     @sync_to_async
     def get_or_create_conversation(self, user_id):
@@ -153,9 +152,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         """
         try:
             conversation, created = Conversation.objects.get_or_create(
-                user_id=user_id,
-                status="active",
-                defaults={'context_data': {}}
+                user_id=user_id, status="active", defaults={"context_data": {}}
             )
             return conversation
         except Exception as e:
