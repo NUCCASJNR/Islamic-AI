@@ -55,7 +55,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
     def get_conversation(self, room):
         """
 
-        :param room: 
+        :param room:
 
         """
         return str(room.split("_")[1])

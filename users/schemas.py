@@ -37,7 +37,7 @@ class LoginSchema(BaseModel):
     def check_email_or_username(cls, values):
         """
 
-        :param values: 
+        :param values:
 
         """
         email, username = values.get("email"), values.get("username")
