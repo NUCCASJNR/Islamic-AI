@@ -311,6 +311,8 @@ CACHES = {
 }
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 HONEYBADGER = {
   'API_KEY': os.getenv("HONEY_KEY"),
 }
@@ -322,4 +324,3 @@ CHANNEL_LAYERS = {
         },
     },
 }
-CELERY_BROKER_URL = 'redis://localhost:6379/0'

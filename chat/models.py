@@ -14,7 +14,8 @@ CONVERSATION_CHOICES = [
 MESSAGE_CHOICES = [
     ('text', 'Text'),
     ('suggestion', 'Suggestion'),
-    ('follow-up', 'Follow-up')
+    ('follow-up', 'Follow'
+                  '-up')
 ]
 
 SENDER_CHOICES = [
@@ -32,6 +33,10 @@ class Conversation(BaseModel):
 
     class Meta:
         db_table = "conversations"
+
+    def set_inactive(self):
+        self.status = "escalated"
+        self.save()
 
     def __str__(self):
         return f"Conversation {self.id} with {self.user.username}"

@@ -1,3 +1,4 @@
+
 import json
 import logging
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -176,7 +177,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 conversation=conversation,
                 sender=sender,
                 message_text=message_text,
-                response_type="text",  # Assuming "text" is a valid choice in MESSAGE_CHOICES
+                response_type="text",
             )
             return message
         except Conversation.DoesNotExist:
