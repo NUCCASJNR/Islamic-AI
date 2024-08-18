@@ -43,6 +43,8 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
+    "channels",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -97,6 +99,7 @@ TEMPLATES = [
 AUTH_USER_MODEL = "users.MainUser"
 
 WSGI_APPLICATION = "IslamicAi.wsgi.application"
+ASGI_APPLICATION = "IslamicAi.asgi.application"
 
 db_dict: Dict = {
     "DEV": {
@@ -197,7 +200,7 @@ TIME_ZONE = "Africa/Lagos"
 
 USE_I18N = True
 
-USE_TZ = False
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -271,12 +274,12 @@ except Exception as e:
     logging.exception("Failed to configure logging: %s", e)
 if MODE == "DEV":
     REDIS_URL = os.getenv("REDIS_UR")
-    CELERY_BROKER_URL = os.getenv("REDIS_UR")
-    CELERY_RESULT_BACKEND = os.getenv("REDIS_UR")
+    # CELERY_BROKER_URL = REDIS_URL
+    # CELERY_RESULT_BACKEND = REDIS_URL
 else:
     REDIS_URL = os.getenv("REDIS_URL")
-    CELERY_BROKER_URL = os.getenv("REDIS_UR")
-    CELERY_RESULT_BACKEND = os.getenv("REDIS_UR")
+    # CELERY_BROKER_URL = REDIS_URL
+    # CELERY_RESULT_BACKEND = REDIS_URL
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -308,6 +311,16 @@ CACHES = {
 }
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 HONEYBADGER = {
   'API_KEY': os.getenv("HONEY_KEY"),
+}
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
 }

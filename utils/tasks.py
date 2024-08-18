@@ -1,6 +1,6 @@
 from celery import shared_task
 from users.models import MainUser
-from .utils import send_daily_hadith
+from utils.utils import send_daily_hadith
 
 
 @shared_task
