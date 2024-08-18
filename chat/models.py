@@ -2,8 +2,8 @@
 
 """Contains chat related models"""
 
-from utils.base_model import BaseModel, models
 from users.models import MainUser
+from utils.base_model import BaseModel, models
 
 CONVERSATION_CHOICES = [
     ("active", "Active"),

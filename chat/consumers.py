@@ -1,13 +1,14 @@
 import json
 import logging
-from channels.generic.websocket import AsyncWebsocketConsumer
-from rest_framework_simplejwt.tokens import AccessToken
-from asgiref.sync import sync_to_async
-from chat.models import MainUser, Conversation, Message
-from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
-from channels.db import database_sync_to_async
 
+from asgiref.sync import sync_to_async
+from channels.db import database_sync_to_async
+from channels.generic.websocket import AsyncWebsocketConsumer
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework_simplejwt.tokens import AccessToken
+
+from chat.models import Conversation, MainUser, Message
 
 logging.basicConfig(level=logging.DEBUG, filename="app.log")
 
