@@ -8,7 +8,9 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import AccessToken
 
-from chat.models import Conversation, MainUser, Message
+from chat.models import Conversation
+from chat.models import MainUser
+from chat.models import Message
 
 logging.basicConfig(level=logging.DEBUG, filename="app.log")
 
