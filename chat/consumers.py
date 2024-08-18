@@ -49,7 +49,8 @@ class MessageConsumer(AsyncWebsocketConsumer):
         conversation = await self.get_or_create_conversation(self.user_id)
         self.room_group_name = f"chat_{conversation.id}"
 
-        await self.channel_layer.group_add(self.room_group_name, self.channel_name)
+        await self.channel_layer.group_add(self.room_group_name,
+                                           self.channel_name)
         await self.accept()
 
     def get_conversation(self, room):
@@ -66,7 +67,8 @@ class MessageConsumer(AsyncWebsocketConsumer):
         :param close_code: Close code
         :return:
         """
-        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+        await self.channel_layer.group_discard(self.room_group_name,
+                                               self.channel_name)
 
     async def receive(self, text_data):
         """
@@ -80,7 +82,8 @@ class MessageConsumer(AsyncWebsocketConsumer):
             sender = text_data_json.get("sender", self.user.username)
 
             # Save the message
-            response = await self.save_message_async(message, sender, self.user_id)
+            response = await self.save_message_async(message, sender,
+                                                     self.user_id)
             if response is not None:
                 obj = datetime.fromisoformat(str(response.updated_at))
                 time = obj.strftime("%A, %d %B %Y, %I:%M %p")
@@ -114,11 +117,11 @@ class MessageConsumer(AsyncWebsocketConsumer):
             sender,
             self.room_group_name,
         )
-        await self.send(
-            text_data=json.dumps(
-                {"message": message, "sender": sender, "time": event["time"]}
-            )
-        )
+        await self.send(text_data=json.dumps({
+            "message": message,
+            "sender": sender,
+            "time": event["time"]
+        }))
 
     async def get_auth_info(self, token):
         """
@@ -129,7 +132,10 @@ class MessageConsumer(AsyncWebsocketConsumer):
         try:
             decoded_token = AccessToken(token)
             if decoded_token.get("user_id"):
-                return {"status": True, "user_id": decoded_token.get("user_id")}
+                return {
+                    "status": True,
+                    "user_id": decoded_token.get("user_id")
+                }
             return False
         except Exception as e:
             return {"status": False, "response": str(e)}
@@ -163,8 +169,9 @@ class MessageConsumer(AsyncWebsocketConsumer):
         """
         try:
             conversation, created = Conversation.objects.get_or_create(
-                user_id=user_id, status="active", defaults={"context_data": {}}
-            )
+                user_id=user_id,
+                status="active",
+                defaults={"context_data": {}})
             return conversation
         except Exception as e:
             logging.error(f"Error creating conversation: {e}")
@@ -181,7 +188,8 @@ class MessageConsumer(AsyncWebsocketConsumer):
 
         """
         try:
-            conversation = Conversation.objects.get(user_id=user_id, status="active")
+            conversation = Conversation.objects.get(user_id=user_id,
+                                                    status="active")
             message = Message.objects.create(
                 conversation=conversation,
                 sender=sender,

@@ -13,7 +13,8 @@ CONVERSATION_CHOICES = [
 MESSAGE_CHOICES = [
     ("text", "Text"),
     ("suggestion", "Suggestion"),
-    ("follow-up", "Follow" "-up"),
+    ("follow-up", "Follow"
+     "-up"),
 ]
 
 SENDER_CHOICES = [("user", "User"), ("bot", "Bot")]
@@ -61,7 +62,9 @@ class KnowledgeBase(BaseModel):
     answer = models.TextField()
     category = models.CharField(max_length=100)
     tags = models.CharField(max_length=200, blank=True, null=True)
-    created_by = models.ForeignKey(MainUser, on_delete=models.SET_NULL, null=True)
+    created_by = models.ForeignKey(MainUser,
+                                   on_delete=models.SET_NULL,
+                                   null=True)
 
     class Meta:
         """ """
