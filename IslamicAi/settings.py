@@ -274,12 +274,12 @@ except Exception as e:
     logging.exception("Failed to configure logging: %s", e)
 if MODE == "DEV":
     REDIS_URL = os.getenv("REDIS_UR")
-    # CELERY_BROKER_URL = REDIS_URL
-    # CELERY_RESULT_BACKEND = REDIS_URL
+    CELERY_BROKER_URL = REDIS_URL
+    CELERY_RESULT_BACKEND = REDIS_URL
 else:
     REDIS_URL = os.getenv("REDIS_URL")
-    # CELERY_BROKER_URL = REDIS_URL
-    # CELERY_RESULT_BACKEND = REDIS_URL
+    CELERY_BROKER_URL = REDIS_URL
+    CELERY_RESULT_BACKEND = REDIS_URL
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -311,8 +311,8 @@ CACHES = {
 }
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 HONEYBADGER = {
   'API_KEY': os.getenv("HONEY_KEY"),
 }
