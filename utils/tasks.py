@@ -6,6 +6,7 @@ from utils.utils import send_daily_hadith
 
 @shared_task
 def send_hadith():
+    """ """
     users = MainUser.objects.all()
     for user in users:
         send_daily_hadith(user)

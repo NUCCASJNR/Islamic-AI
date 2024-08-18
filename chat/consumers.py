@@ -14,6 +14,7 @@ logging.basicConfig(level=logging.DEBUG, filename="app.log")
 
 
 class MessageConsumer(AsyncWebsocketConsumer):
+    """ """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -50,6 +51,11 @@ class MessageConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     def get_conversation(self, room):
+        """
+
+        :param room: 
+
+        """
         return str(room.split("_")[1])
 
     async def disconnect(self, close_code):
@@ -131,10 +137,11 @@ class MessageConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def get_user_by_id(self, user_id):
-        """
-        Retrieve a user object by ID
+        """Retrieve a user object by ID
+
         :param user_id: User ID
-        :return: User object or None
+        :returns: User object or None
+
         """
         try:
             user = MainUser.objects.get(id=user_id)
@@ -146,10 +153,11 @@ class MessageConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def get_or_create_conversation(self, user_id):
-        """
-        Get or create a conversation for the user
+        """Get or create a conversation for the user
+
         :param user_id: User ID
-        :return: Conversation object
+        :returns: Conversation object
+
         """
         try:
             conversation, created = Conversation.objects.get_or_create(
@@ -162,12 +170,13 @@ class MessageConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def save_message_async(self, message_text, sender, user_id):
-        """
-        Save a message to the conversation
+        """Save a message to the conversation
+
         :param message_text: Text of the message
         :param sender: Sender's ID or name
         :param user_id: User ID
-        :return: Message object or None
+        :returns: Message object or None
+
         """
         try:
             conversation = Conversation.objects.get(user_id=user_id, status="active")
