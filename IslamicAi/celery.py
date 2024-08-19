@@ -26,7 +26,7 @@ app.conf.update(
     loglevel='DEBUG',
 )
 print(app.conf.broker_url)
-app.conf.broker_connection_max_retry_on_startup = True
+# app.conf.broker_connection_max_retry_on_startup = True
 
 if __name__ == '__main__':
     app.start()
