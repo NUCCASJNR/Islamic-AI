@@ -1,0 +1,26 @@
+name: Scheduled Email Sender
+
+on:
+  schedule:
+    - cron: '10 20 * * *' # Runs at 1:10 AM every day
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    if: ${{ secrets.ENVIRONMENT == 'PRODUCTION' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run bash script
+        run: ./cron_job.sh
