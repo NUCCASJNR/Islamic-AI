@@ -1,6 +1,10 @@
 name: Scheduled Email Sender
 
 on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "main" ]
   schedule:
     - cron: '10 20 * * *' # Runs at 1:10 AM every day
 
