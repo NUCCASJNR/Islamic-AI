@@ -1,12 +1,12 @@
 name: Scheduled Email Sender
 
 on:
-  push:
-    branches: ["**"]
-  pull_request:
-    branches: ["main"]
+#  push:
+#    branches: ["**"]
+#  pull_request:
+#    branches: ["main"]
   schedule:
-    - cron: '39 0 * * *'  # Runs daily at 00:34 UTC
+    - cron: '44 1 * * *'  # Runs daily at 00:34 UTC
 
 jobs:
   send-email:

@@ -16,7 +16,7 @@ app = Celery('IslamicAi')
 app.conf.beat_schedule = {
     'send-daily-hadith': {
         'task': 'utils.tasks.send_hadith',
-        'schedule': crontab(hour=1, minute=10),
+        'schedule': crontab(hour=1, minute=44),
     },
 }
 app.config_from_object('django.conf:settings', namespace='CELERY')
