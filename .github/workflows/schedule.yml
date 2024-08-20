@@ -28,4 +28,4 @@ jobs:
       - name: Run bash script
         env:
           MODE: ${{ secrets.MODE }}
-        run: ./cron_job.sh
+        run: ./cronjob.sh
