@@ -2,16 +2,15 @@ name: Scheduled Email Sender
 
 on:
   push:
-    branches: [ "**" ]
+    branches: ["**"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   schedule:
-    - cron: '34 0 * * *' # Runs at 1:10 AM every day
+    - cron: '39 0 * * *'  # Runs daily at 00:34 UTC
 
 jobs:
   send-email:
     runs-on: ubuntu-latest
-    if: ${{ secrets.MODE == 'PRODUCTION' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -27,4 +26,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run bash script
+        env:
+          MODE: ${{ secrets.MODE }}
         run: ./cron_job.sh
