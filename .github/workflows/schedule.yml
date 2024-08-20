@@ -7,7 +7,7 @@ on:
 jobs:
   send-email:
     runs-on: ubuntu-latest
-    if: ${{ secrets.ENVIRONMENT == 'PRODUCTION' }}
+    if: ${{ secrets.MODE == 'PRODUCTION' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
