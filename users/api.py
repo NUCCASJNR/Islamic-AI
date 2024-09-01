@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.cache import cache
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from ninja import NinjaAPI
+from ninja import NinjaAPI, Router
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import MainUser
@@ -25,7 +25,8 @@ from utils.utils import generate_code
 from utils.utils import send_reset_password_email, send_verification_email
 
 logger = logging.getLogger("apps")
-api = NinjaAPI()
+api = NinjaAPI(version="2.0.0")
+router = Router()
 
 
 @api.get('/',

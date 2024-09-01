@@ -5,3 +5,4 @@
 /celery_beat.log
 /celery_worker.log
 .idea
+.pytest_cache

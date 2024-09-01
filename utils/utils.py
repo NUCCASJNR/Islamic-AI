@@ -4,6 +4,10 @@ from django.http import JsonResponse
 
 from .mails import send_email
 from .hadith import get_random_hadith
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def generate_code():
@@ -18,7 +22,7 @@ def generate_code():
             return otp
 
 
-def send_verification_email(user: "MainUser Instance"):
+def send_verification_email(user):
     """Handles sending a verification email.
 
     :param user: MainUser Instance
@@ -49,7 +53,7 @@ def send_verification_email(user: "MainUser Instance"):
         return {"status": "error", "message": str(e)}
 
 
-def send_reset_password_email(user: "MainUser Instance"):
+def send_reset_password_email(user):
     """Handles sending reset password mail to users
 
     :param user: MainUser Instance
@@ -97,3 +101,12 @@ def send_daily_hadith(user):
     except Exception as e:
         print(str(e))
         return {"status": "error", "message": str(e)}
+
+
+def generate_websocket_url(conversation_id):
+    if getenv("MODE") == "DEV":
+        domain = "ws://localhost:8000"
+    else:
+        domain = getenv("DOMAIN")
+    websocket_url = f"{domain}/ws/chat/c/{conversation_id}/"
+    return websocket_url
