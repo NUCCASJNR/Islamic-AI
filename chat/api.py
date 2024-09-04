@@ -27,7 +27,7 @@ def new_chat(request):
     try:
         user = request.user
         logger.info(f"Attempting to create a new conversation for user: {user.id}")
-        print(request.user)
+        token = request.headers.get('Authorization')
         convo = Conversation.custom_save(user=user)
         logger.info(f"New conversation created: {convo} (ID: {convo.id})")
 
@@ -35,7 +35,7 @@ def new_chat(request):
             logger.warning("Failed to create a new conversation.")
             return 400, {"error": "Failed to create a new conversation.", "status": 400}
 
-        websocket_url = generate_websocket_url(convo.id)
+        websocket_url = generate_websocket_url(convo.id, token)
         logger.info(f"WebSocket URL generated: {websocket_url}")
 
         return 200, {

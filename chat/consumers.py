@@ -14,38 +14,36 @@ logging.basicConfig(level=logging.DEBUG, filename='app.log')
 
 
 class MessageConsumer(AsyncWebsocketConsumer):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.room_group_name = None
-        self.user = None
-        self.user_id = None
-        self.sender_id = None
-
     async def connect(self):
-        """
-        Connect method
-        :return: Nothing
-        """
-        self.sender_id = self.scope['url_route']['kwargs']['user_id']
+        self.chat_id = self.scope['url_route']['kwargs']['chat_id']
+        print(f"Chat ID: {self.chat_id}")
         token = self.scope.get("query_string").decode().split("Bearer%20")[1]
+        print(f"Token: {token}")
+
         auth_info = await self.get_auth_info(token)
+        print(f"Auth Info: {auth_info}")
 
         if not auth_info['status']:
             await self.close()
-            return f'Error: {auth_info["response"]}'
+            print(f"Authentication failed: {auth_info['response']}")
+            return
 
         self.user_id = auth_info.get('user_id', None)
         self.user = await self.get_user_by_id(auth_info['user_id'])
-
+        print(f"User: {self.user}")
         if not self.user:
             await self.close()
-            return 'Error: User not found'
+            print("User not found")
+            return
 
-        # Create or get the conversation
-        conversation = await self.get_or_create_conversation(self.user_id)
-        self.room_group_name = f"chat_{conversation.id}"
-
+        owner = await self.confirm_convo_owner(self.user_id, self.chat_id)
+        print(f'res: {owner}')
+        if not owner:
+            await self.close()
+            print('You cant Access this conversation')
+            return
+        self.room_group_name = f"chat_{self.chat_id}"
+        print(f"Room Group Name: {self.room_group_name}")
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()
 
@@ -53,12 +51,10 @@ class MessageConsumer(AsyncWebsocketConsumer):
         return str(room.split("_")[1])
 
     async def disconnect(self, close_code):
-        """
-        Disconnect method
-        :param close_code: Close code
-        :return:
-        """
-        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+        if hasattr(self, 'room_group_name'):
+            await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+        else:
+            print('Group name not set')
 
     async def receive(self, text_data):
         """
@@ -125,6 +121,19 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 "status": False,
                 "response": str(e)
             }
+
+    @sync_to_async
+    def confirm_convo_owner(self, user_id, convo_id):
+        """
+        Confirms if a user owns a conversation before granting access
+        """
+        convo = Conversation.custom_get(**{'id': convo_id})
+        if convo:
+            if str(convo.user.id) == user_id:
+                return True
+            else:
+                return False
+        return False
 
     async def close(self):
         pass

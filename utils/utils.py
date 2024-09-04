@@ -103,10 +103,10 @@ def send_daily_hadith(user):
         return {"status": "error", "message": str(e)}
 
 
-def generate_websocket_url(conversation_id):
+def generate_websocket_url(conversation_id, token):
     if getenv("MODE") == "DEV":
-        domain = "ws://localhost:8000"
+        domain = "ws://127.0.0.1:8000"
     else:
         domain = getenv("DOMAIN")
-    websocket_url = f"{domain}/ws/chat/c/{conversation_id}/"
+    websocket_url = f"{domain}/ws/chat/c/{conversation_id}/?token={token}"
     return websocket_url
