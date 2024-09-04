@@ -63,12 +63,16 @@ class MessageConsumer(AsyncWebsocketConsumer):
         :return: Processed messages
         """
         try:
+            print(f'Json: {text_data}')
             text_data_json = json.loads(text_data)
+            print(f'Json data: {text_data_json}')
             message = text_data_json["message"]
             sender = text_data_json.get("sender", self.user.username)
+            print(f'id: {self.chat_id}')
 
             # Save the message
-            response = await self.save_message_async(message, sender, self.user_id)
+            response = await self.save_message_async(message, "sender", self.user_id)
+            print(f'response: {response}')
             if response is not None:
                 obj = datetime.fromisoformat(str(response.updated_at))
                 time = obj.strftime("%A, %d %B %Y, %I:%M %p")
@@ -95,6 +99,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         """
         message = event["message"]
         sender = event["sender"]
+        print(f'sender: {sender} message{message}')
         logging.info("Sending message '%s' from sender '%s' to room '%s'", message, sender, self.room_group_name)
         await self.send(text_data=json.dumps({
             "message": message,
@@ -181,12 +186,12 @@ class MessageConsumer(AsyncWebsocketConsumer):
         :return: Message object or None
         """
         try:
-            conversation = Conversation.objects.get(user_id=user_id, status="active")
+            conversation = Conversation.custom_get(**{"user_id": user_id, "id": self.chat_id})
+            print(conversation)
             message = Message.objects.create(
                 conversation=conversation,
                 sender=sender,
                 message_text=message_text,
-                response_type="text",
             )
             return message
         except Conversation.DoesNotExist:
@@ -195,3 +200,20 @@ class MessageConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             logging.error(f"Error saving message: {e}")
             return None
+
+    async def handle_bot_response(self, user_message):
+        bot_response = self.generate_bot_response(user_message)
+
+        # Send the bot's response to the WebSocket channel
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                "type": "chat.message",
+                "message": bot_response,
+                "sender": "bot",
+                "time": datetime.now().strftime("%A, %d %B %Y, %I:%M %p")
+            }
+        )
+
+    def generate_bot_response(self, user_message):
+        return "This is a bot's response to your message."
