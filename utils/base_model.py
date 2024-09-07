@@ -8,6 +8,7 @@ from cloudinary.models import CloudinaryResource
 from django.contrib.auth.hashers import make_password
 from django.db import models
 from django.utils import timezone
+from datetime import datetime
 
 
 class BaseModel(models.Model):
@@ -33,7 +34,7 @@ class BaseModel(models.Model):
         :param Any]:
 
         """
-        # cls.updated_at = datetime.now()
+        cls.updated_at = datetime.now()
         instance = cls.objects.create(**kwargs)
         return instance
 
@@ -83,7 +84,7 @@ class BaseModel(models.Model):
                     "password"] is not None:
                 update_kwargs["password"] = make_password(
                     update_kwargs["password"])
-
+            cls.updated_at = datetime.now()
             cls.objects.filter(**filter_kwargs).update(**update_kwargs)
             return True
         except cls.DoesNotExist:
@@ -161,9 +162,7 @@ class BaseModel(models.Model):
         """Converts the object to a dictionary
 
         :param obj: Any:
-
         """
-
         model_dict = {}
         for field in obj._meta.fields:
             field_name = field.name
@@ -175,8 +174,10 @@ class BaseModel(models.Model):
             elif isinstance(field, models.ImageField):
                 field_value = field_value.url if field_value else None
             elif isinstance(field, CloudinaryResource):
-                # Here, handle the conversion for CloudinaryResource
+                # Handle the conversion for CloudinaryResource
                 field_value = cls.handle_cloudinary_resource(field_value)
+            elif isinstance(field, models.ForeignKey):
+                # Convert foreign key to a dictionary or specific attribute
+                field_value = field_value.id if field_value else None
             model_dict[field_name] = field_value
-
         return model_dict

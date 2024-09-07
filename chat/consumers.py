@@ -4,7 +4,7 @@ import logging
 from channels.generic.websocket import AsyncWebsocketConsumer
 from rest_framework_simplejwt.tokens import AccessToken
 from asgiref.sync import sync_to_async
-from chat.models import MainUser, Conversation, Message
+from chat.models import MainUser, Conversation, Message, FAQS
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from channels.db import database_sync_to_async
@@ -16,8 +16,8 @@ logging.basicConfig(level=logging.DEBUG, filename='app.log')
 class MessageConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.chat_id = self.scope['url_route']['kwargs']['chat_id']
-        print(f"Chat ID: {self.chat_id}")
-        token = self.scope.get("query_string").decode().split("Bearer%20")[1]
+        headers = self.scope.get("headers")
+        token = await self.extract_auth_token(headers)
         print(f"Token: {token}")
 
         auth_info = await self.get_auth_info(token)
@@ -46,6 +46,8 @@ class MessageConsumer(AsyncWebsocketConsumer):
         print(f"Room Group Name: {self.room_group_name}")
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()
+        re = await self.process_stored_messages(self.chat_id)
+        print(f'Saved messages: {re}')
 
     def get_conversation(self, room):
         return str(room.split("_")[1])
@@ -76,6 +78,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
             if response is not None:
                 obj = datetime.fromisoformat(str(response.updated_at))
                 time = obj.strftime("%A, %d %B %Y, %I:%M %p")
+                await self.handle_bot_response(message)
                 await self.channel_layer.group_send(
                     self.room_group_name, {
                         "type": "chat.message",
@@ -107,6 +110,39 @@ class MessageConsumer(AsyncWebsocketConsumer):
             "time": event["time"]
         }))
 
+    @database_sync_to_async
+    def get_stored_messages_sync(self, conversation_id):
+        """
+        Synchronously get all the stored previous messages in a conversation
+        """
+        try:
+            messages = Message.objects.filter(conversation_id=conversation_id)
+            print(messages)
+            return list(messages)
+        except ValueError:
+            logging.info(f"These users don't have previous chats")
+            return []
+
+    async def get_stored_messages(self, conversation_id):
+        """
+        Asynchronously fetch stored messages by calling the sync method
+        """
+        messages = await self.get_stored_messages_sync(conversation_id)
+        return messages
+
+    async def process_stored_messages(self, conversation_id):
+        """
+        Process the stored messages and display them upon successful connection
+        """
+        messages = await self.get_stored_messages(conversation_id)
+        for message in messages:
+            obj = datetime.fromisoformat(str(message.updated_at))
+            time = obj.strftime("%A, %d %B %Y, %I:%M %p")
+            await self.send(text_data=json.dumps({
+                "message": message.message_text,
+                "time": time
+            }))
+
     async def get_auth_info(self, token):
         """
         Get authentication info from a JWT token
@@ -127,7 +163,15 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 "response": str(e)
             }
 
-    @sync_to_async
+    async def extract_auth_token(self, headers):
+        for header in headers:
+            if header[0] == b'authorization':
+                auth_header = header[1].decode('utf-8')
+                if auth_header.startswith('Bearer '):
+                    return auth_header[len('Bearer '):]
+        return None
+
+    @database_sync_to_async
     def confirm_convo_owner(self, user_id, convo_id):
         """
         Confirms if a user owns a conversation before granting access
@@ -143,7 +187,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
     async def close(self):
         pass
 
-    @sync_to_async
+    @database_sync_to_async
     def get_user_by_id(self, user_id):
         """
         Retrieve a user object by ID
@@ -176,8 +220,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
             logging.error(f"Error creating conversation: {e}")
             return None
 
-    @sync_to_async
-    def save_message_async(self, message_text, sender, user_id):
+    async def save_message_async(self, message_text, sender, user_id):
         """
         Save a message to the conversation
         :param message_text: Text of the message
@@ -186,13 +229,15 @@ class MessageConsumer(AsyncWebsocketConsumer):
         :return: Message object or None
         """
         try:
-            conversation = Conversation.custom_get(**{"user_id": user_id, "id": self.chat_id})
+            # Use sync_to_async for synchronous database operations
+            conversation = await sync_to_async(Conversation.custom_get)(**{"user_id": user_id, "id": self.chat_id})
             print(conversation)
-            message = Message.objects.create(
+            message = await sync_to_async(Message.objects.create)(
                 conversation=conversation,
                 sender=sender,
                 message_text=message_text,
             )
+            print(f'Saved: {message}')
             return message
         except Conversation.DoesNotExist:
             logging.error("No active conversation found")
@@ -202,7 +247,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
             return None
 
     async def handle_bot_response(self, user_message):
-        bot_response = self.generate_bot_response(user_message)
+        bot_response = await self.generate_bot_response(user_message)
 
         # Send the bot's response to the WebSocket channel
         await self.channel_layer.group_send(
@@ -215,5 +260,11 @@ class MessageConsumer(AsyncWebsocketConsumer):
             }
         )
 
-    def generate_bot_response(self, user_message):
-        return "This is a bot's response to your message."
+    async def generate_bot_response(self, user_message):
+        @database_sync_to_async
+        async def find_question(question_text):
+            question = FAQS.find_obj_by(**{"question": question_text})
+            return question
+
+        question = await find_question(user_message)
+        return question.answer

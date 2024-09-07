@@ -47,7 +47,7 @@ class Message(BaseModel):
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
     sender = models.CharField(max_length=10, choices=SENDER_CHOICES)
     message_text = models.TextField()
-    response_type = models.CharField(max_length=50, choices=MESSAGE_CHOICES)
+    response = models.JSONField(blank=True, null=True)
 
     class Meta:
         db_table = "messages"
