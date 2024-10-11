@@ -6,3 +6,4 @@
 /celery_worker.log
 .idea
 .pytest_cache
+.linux-venv
