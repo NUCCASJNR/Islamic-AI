@@ -89,8 +89,8 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 )
             else:
                 logging.error("Failed to save message")
-        except json.decoder.JSONDecodeError:
-            logging.warning("Received an empty or invalid JSON message")
+        except json.decoder.JSONDecodeError as text_data:
+            logging.warning(f"Received an empty or invalid JSON message: {text_data}")
         except Exception as e:
             logging.error(f"Error processing received message: {e}")
 
@@ -140,6 +140,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
             time = obj.strftime("%A, %d %B %Y, %I:%M %p")
             await self.send(text_data=json.dumps({
                 "message": message.message_text,
+                "response": message.response,
                 "time": time
             }))
 
@@ -202,7 +203,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             return f'Error: {e}'
 
-    @sync_to_async
+    @database_sync_to_async
     def get_or_create_conversation(self, user_id):
         """
         Get or create a conversation for the user
@@ -220,28 +221,23 @@ class MessageConsumer(AsyncWebsocketConsumer):
             logging.error(f"Error creating conversation: {e}")
             return None
 
-    async def save_message_async(self, message_text, sender, user_id):
-        """
-        Save a message to the conversation
-        :param message_text: Text of the message
-        :param sender: Sender's ID or name
-        :param user_id: User ID
-        :return: Message object or None
-        """
+    @database_sync_to_async
+    def save_message_async(self, message_text, sender, user_id):
         try:
-            # Use sync_to_async for synchronous database operations
-            conversation = await sync_to_async(Conversation.custom_get)(**{"user_id": user_id, "id": self.chat_id})
+            # Fetch the conversation asynchronously
+            conversation = Conversation.objects.get(
+                user_id=user_id, id=self.chat_id
+            )
             print(conversation)
-            message = await sync_to_async(Message.objects.create)(
+
+            # Save the message using sync_to_async
+            message = Message.objects.create(
                 conversation=conversation,
                 sender=sender,
                 message_text=message_text,
             )
             print(f'Saved: {message}')
             return message
-        except Conversation.DoesNotExist:
-            logging.error("No active conversation found")
-            return None
         except Exception as e:
             logging.error(f"Error saving message: {e}")
             return None
@@ -262,9 +258,21 @@ class MessageConsumer(AsyncWebsocketConsumer):
 
     async def generate_bot_response(self, user_message):
         @database_sync_to_async
-        async def find_question(question_text):
+        def find_question(question_text):
             question = FAQS.find_obj_by(**{"question": question_text})
             return question
 
+        @database_sync_to_async
+        def update_message_response(chat_id, answer):
+            Message.custom_update(
+                filter_kwargs={'conversation': chat_id},
+                update_kwargs={'response': answer}
+            )
+
         question = await find_question(user_message)
-        return question.answer
+        if question:
+            chat_id = self.chat_id
+            await update_message_response(chat_id, question.answer)
+            return question.answer
+        else:
+            return "Heyyy"
